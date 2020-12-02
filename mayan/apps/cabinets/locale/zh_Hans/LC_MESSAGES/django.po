@@ -27,6 +27,9 @@ msgstr ""
 msgid "Cabinets"
 msgstr "文档柜"
 
+msgid "Cabinets_edu"
+msgstr "学习培训"
+
 #: events.py:9
 msgid "Cabinet created"
 msgstr "文档柜创建"

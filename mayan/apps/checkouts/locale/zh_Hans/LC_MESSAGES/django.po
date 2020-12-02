@@ -45,7 +45,7 @@ msgstr "强制签入文档"
 
 #: exceptions.py:15
 msgid "Document not checked out."
-msgstr ""
+msgstr "未签出的文档"
 
 #: exceptions.py:23
 msgid "Document already checked out."
@@ -85,7 +85,7 @@ msgstr "签出文档"
 
 #: links.py:43
 msgid "Check out"
-msgstr ""
+msgstr "签出"
 
 #: links.py:50
 msgid "Check in document"
@@ -93,15 +93,15 @@ msgstr "签入文档"
 
 #: links.py:54
 msgid "Check in"
-msgstr ""
+msgstr "签入"
 
 #: links.py:60
 msgid "Check in/out"
-msgstr "签入/签出"
+msgstr "签入/checkout"
 
 #: literals.py:10
 msgid "Checked out"
-msgstr "签出"
+msgstr "checkout"
 
 #: literals.py:11
 msgid "Checked in/available"
@@ -117,7 +117,7 @@ msgstr "查看日期和时间"
 
 #: models.py:35
 msgid "Amount of time to hold the document checked out in minutes."
-msgstr "签出文件需要几分钟的时间"
+msgstr "checkout文件需要几分钟的时间"
 
 #: models.py:37
 msgid "Check out expiration date and time"
@@ -207,7 +207,7 @@ msgstr[0] ""
 #: views.py:119
 #, python-format
 msgid "Check out document: %s"
-msgstr "签出文档: %s"
+msgstr "checkout文档: %s"
 
 #: views.py:158
 #, python-format

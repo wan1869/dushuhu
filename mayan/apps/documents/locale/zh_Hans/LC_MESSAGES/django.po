@@ -25,9 +25,12 @@ msgstr ""
 msgid "Documents"
 msgstr "文档"
 
+msgid "Documents Management"
+msgstr "文档管理"
+
 #: apps.py:148
 msgid "Decorations"
-msgstr ""
+msgstr "文档修饰"
 
 #: apps.py:161
 msgid "Create a document type"
@@ -66,11 +69,11 @@ msgstr "页码"
 
 #: apps.py:241
 msgid "Return the lastest version of the document."
-msgstr ""
+msgstr "回退最后版本"
 
 #: apps.py:242
 msgid "Latest version"
-msgstr ""
+msgstr "最后版本"
 
 #: apps.py:245
 msgid "Return the document instance."
