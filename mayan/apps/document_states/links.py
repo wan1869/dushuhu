@@ -159,6 +159,23 @@ link_workflow_template_transition_list = Link(
 )
 
 # Workflow transition fields
+link_document_approval_workflow_launch = Link(
+    icon_class_path='mayan.apps.document_states.icons.icon_document_workflow_templates_launch',
+    text=_('Launch approval workflows'),
+    view='document_states:document_multiple_workflow_templates_launch',
+)
+
+link_document_annual_workflow_launch = Link(
+    icon_class_path='mayan.apps.document_states.icons.icon_document_workflow_templates_launch',
+    text=_('Launch annual workflows'),
+    view='document_states:document_multiple_workflow_templates_launch',
+)
+
+link_document_workflow_list = Link(
+    icon_class_path='mayan.apps.document_states.icons.icon_document_workflow_templates_launch',
+    text=_('Workflows list'),
+    view='document_states:document_multiple_workflow_templates_launch',
+)
 
 link_document_multiple_workflow_templates_launch = Link(
     icon_class_path='mayan.apps.document_states.icons.icon_document_workflow_templates_launch',
@@ -233,7 +250,7 @@ link_workflow_runtime_proxy_list = Link(
         app_label='document_states', model_name='WorkflowRuntimeProxy',
         object_permission=permission_workflow_view,
     ), icon_class_path='mayan.apps.document_states.icons.icon_workflow_runtime_proxy_list',
-    text=_('Workflows'), view='document_states:workflow_runtime_proxy_list'
+    text=_('All Workflows'), view='document_states:workflow_runtime_proxy_list'
 )
 link_workflow_runtime_proxy_state_document_list = Link(
     args='resolved_object.pk',

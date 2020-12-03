@@ -25,6 +25,18 @@ msgstr ""
 msgid "Workflows"
 msgstr "工作流"
 
+msgid "Workflows list"
+msgstr "待我审批"
+
+msgid "All Workflows"
+msgstr "所有流程"
+
+msgid "Launch approval workflows"
+msgstr "提交文件评审"
+
+msgid "Launch annual workflows"
+msgstr "提交年度审核"
+
 #: apps.py:171 apps.py:178
 msgid "Current state of a workflow"
 msgstr "工作流的当前状态"

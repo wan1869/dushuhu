@@ -29,6 +29,7 @@ from .handlers import (
     handler_launch_workflow, handler_trigger_transition
 )
 from .html_widgets import WorkflowLogExtraDataWidget, widget_transition_events
+from .menus import menu_workflow
 from .links import (
     link_document_multiple_workflow_templates_launch,
     link_document_single_workflow_templates_launch,
@@ -54,7 +55,7 @@ from .links import (
     link_workflow_instance_transition, link_workflow_runtime_proxy_document_list,
     link_workflow_runtime_proxy_list, link_workflow_template_preview,
     link_workflow_runtime_proxy_state_document_list, link_workflow_runtime_proxy_state_list,
-    link_workflow_template_transition_events
+    link_workflow_template_transition_events,link_document_approval_workflow_launch,link_document_annual_workflow_launch,link_document_workflow_list,
 )
 from .permissions import (
     permission_workflow_delete, permission_workflow_edit,
@@ -460,9 +461,16 @@ class DocumentStatesApp(MayanAppConfig):
                 link_document_type_workflow_templates,
             ), sources=(DocumentType,)
         )
-
+        menu_workflow.bind_links(
+            links=(
+                link_workflow_runtime_proxy_list,
+                link_document_approval_workflow_launch,
+                link_document_annual_workflow_launch,
+                link_document_workflow_list,
+            )
+        )
         menu_main.bind_links(
-            links=(link_workflow_runtime_proxy_list,), position=10
+            links=(menu_workflow,), position=10
         )
         menu_multi_item.bind_links(
             links=(link_document_multiple_workflow_templates_launch,),
