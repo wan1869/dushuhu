@@ -172,9 +172,11 @@ link_document_annual_workflow_launch = Link(
 )
 
 link_document_workflow_list = Link(
-    icon_class_path='mayan.apps.document_states.icons.icon_document_workflow_templates_launch',
-    text=_('Workflows list'),
-    view='document_states:document_multiple_workflow_templates_launch',
+    condition=get_cascade_condition(
+        app_label='document_states', model_name='WorkflowRuntimeProxy',
+        object_permission=permission_workflow_view,
+    ), icon_class_path='mayan.apps.document_states.icons.icon_workflow_runtime_proxy_list',
+    text=_('Workflows list'), view='document_states:workflow_list_waiting_approval'
 )
 
 link_document_multiple_workflow_templates_launch = Link(

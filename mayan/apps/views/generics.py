@@ -838,3 +838,73 @@ class SingleObjectListView(
 
     def get_sort_order(self):
         return self.request.GET.get(TEXT_SORT_ORDER_PARAMETER)
+
+
+class WorkflowObjectListView(
+    ListModeMixin, PaginationMixin, ViewPermissionCheckMixin,
+    RestrictedQuerysetMixin, ExtraContextMixin, RedirectionMixin, ListView
+):
+    template_name = 'appearance/workflow_list.html'
+
+    def __init__(self, *args, **kwargs):
+        result = super(WorkflowObjectListView, self).__init__(*args, **kwargs)
+
+        if self.__class__.mro()[0].get_queryset != WorkflowObjectListView.get_queryset:
+            raise ImproperlyConfigured(
+                '%(cls)s is overloading the get_queryset method. Subclasses '
+                'should implement the get_source_queryset method instead. ' % {
+                    'cls': self.__class__.__name__
+                }
+            )
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        context = super(WorkflowObjectListView, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                TEXT_SORT_FIELD_VARIABLE_NAME: self.get_sort_field(),
+                TEXT_SORT_ORDER_VARIABLE_NAME: self.get_sort_order(),
+                'icon_sort': self.get_sort_icon(),
+            }
+        )
+        return context
+
+    def get_paginate_by(self, queryset):
+        return setting_paginate_by.value
+
+    def get_queryset(self):
+        try:
+            queryset = super(WorkflowObjectListView, self).get_queryset()
+        except ImproperlyConfigured:
+            self.queryset = self.get_source_queryset()
+            queryset = super(WorkflowObjectListView, self).get_queryset()
+
+        self.field_name = self.get_sort_field()
+        if self.get_sort_order() == TEXT_SORT_ORDER_CHOICE_ASCENDING:
+            sort_order = ''
+        else:
+            sort_order = '-'
+
+        if self.field_name:
+            queryset = queryset.order_by(
+                '{}{}'.format(sort_order, self.field_name)
+            )
+
+        return queryset
+
+    def get_sort_field(self):
+        return self.request.GET.get(TEXT_SORT_FIELD_PARAMETER)
+
+    def get_sort_icon(self):
+        sort_order = self.get_sort_order()
+        if not sort_order:
+            return
+        elif sort_order == TEXT_SORT_ORDER_CHOICE_ASCENDING:
+            return icon_sort_down
+        else:
+            return icon_sort_up
+
+    def get_sort_order(self):
+        return self.request.GET.get(TEXT_SORT_ORDER_PARAMETER)

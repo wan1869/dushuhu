@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.documents.models import Document
 from mayan.apps.documents.views.document_views import DocumentListView
-from mayan.apps.views.generics import SingleObjectListView
+from mayan.apps.views.generics import SingleObjectListView, WorkflowObjectListView
 from mayan.apps.views.mixins import ExternalObjectMixin
 
 from ..icons import icon_workflow_template_list
@@ -47,6 +47,26 @@ class WorkflowRuntimeProxyDocumentListView(
 
 
 class WorkflowRuntimeProxyListView(SingleObjectListView):
+    model = WorkflowRuntimeProxy
+    object_permission = permission_workflow_view
+
+    def get_extra_context(self):
+        return {
+            'hide_object': True,
+            'no_results_icon': icon_workflow_template_list,
+            'no_results_main_link': link_workflow_template_create.resolve(
+                context=RequestContext(request=self.request)
+            ),
+            'no_results_text': _(
+                'Create some workflows and associated them with a document '
+                'type. Active workflows will be shown here and the documents '
+                'for which they are executing.'
+            ),
+            'no_results_title': _('There are no workflows'),
+            'title': _('Workflows'),
+        }
+
+class WorkflowRuntimeProxyWaitingListView(WorkflowObjectListView):
     model = WorkflowRuntimeProxy
     object_permission = permission_workflow_view
 
