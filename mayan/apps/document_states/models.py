@@ -987,3 +987,21 @@ class WorkflowStateRuntimeProxy(WorkflowState):
             permission=permission_document_view, queryset=self.get_documents(),
             user=user
         ).count()
+
+
+class WorkflowWaitingProxy(Workflow):
+    class Meta:
+        proxy = True
+        verbose_name = _('Workflow runtime proxy')
+        verbose_name_plural = _('Workflow runtime proxies')
+
+    def get_document_count(self, user):
+        """
+        Return the numeric count of documents executing this workflow.
+        The count is filtered by access.
+        """
+        return AccessControlList.objects.restrict_queryset(
+            permission=permission_document_view,
+            queryset=Document.objects.filter(workflows__workflow=self),
+            user=user
+        ).count()

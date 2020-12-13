@@ -8,7 +8,7 @@ from mayan.apps.views.mixins import ExternalObjectMixin
 
 from ..icons import icon_workflow_template_list
 from ..links import link_workflow_template_create, link_workflow_template_state_create
-from ..models import WorkflowRuntimeProxy, WorkflowStateRuntimeProxy
+from ..models import WorkflowRuntimeProxy, WorkflowStateRuntimeProxy,WorkflowWaitingProxy
 from ..permissions import permission_workflow_view
 
 
@@ -66,8 +66,9 @@ class WorkflowRuntimeProxyListView(SingleObjectListView):
             'title': _('Workflows'),
         }
 
+
 class WorkflowRuntimeProxyWaitingListView(WorkflowObjectListView):
-    model = WorkflowRuntimeProxy
+    model = WorkflowWaitingProxy
     object_permission = permission_workflow_view
 
     def get_extra_context(self):
