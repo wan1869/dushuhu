@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.documents.models import Document
 from mayan.apps.documents.views.document_views import DocumentListView
-from mayan.apps.views.generics import SingleObjectListView, WorkflowObjectListView
+from mayan.apps.views.generics import SingleObjectListView
 from mayan.apps.views.mixins import ExternalObjectMixin
 
 from ..icons import icon_workflow_template_list
@@ -67,7 +67,7 @@ class WorkflowRuntimeProxyListView(SingleObjectListView):
         }
 
 
-class WorkflowRuntimeProxyWaitingListView(WorkflowObjectListView):
+class WorkflowRuntimeProxyWaitingListView(SingleObjectListView):
     model = WorkflowWaitingProxy
     object_permission = permission_workflow_view
 

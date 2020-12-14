@@ -89,6 +89,7 @@ class DocumentStatesApp(MayanAppConfig):
         WorkflowInstance = self.get_model('WorkflowInstance')
         WorkflowInstanceLogEntry = self.get_model('WorkflowInstanceLogEntry')
         WorkflowRuntimeProxy = self.get_model('WorkflowRuntimeProxy')
+        WorkflowWaitingProxy = self.get_model('WorkflowWaitingProxy')
         WorkflowState = self.get_model('WorkflowState')
         WorkflowStateAction = self.get_model('WorkflowStateAction')
         WorkflowStateRuntimeProxy = self.get_model('WorkflowStateRuntimeProxy')
@@ -416,6 +417,13 @@ class DocumentStatesApp(MayanAppConfig):
                 user=context['request'].user
             ), include_label=True, label=_('Documents'), order=99,
             source=WorkflowRuntimeProxy
+        )
+
+        SourceColumn(
+            func=lambda context: context['object'].get_document_count(
+                user=context['request'].user
+            ), include_label=True, label=_('Documents'), order=99,
+            source=WorkflowWaitingProxy
         )
         SourceColumn(
             func=lambda context: context['object'].get_document_count(

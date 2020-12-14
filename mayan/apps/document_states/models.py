@@ -292,6 +292,7 @@ class Workflow(models.Model):
             return result
 
 
+
 class WorkflowInstance(models.Model):
     workflow = models.ForeignKey(
         on_delete=models.CASCADE, related_name='instances', to=Workflow,
@@ -992,8 +993,8 @@ class WorkflowStateRuntimeProxy(WorkflowState):
 class WorkflowWaitingProxy(Workflow):
     class Meta:
         proxy = True
-        verbose_name = _('Workflow runtime proxy')
-        verbose_name_plural = _('Workflow runtime proxies')
+        verbose_name = _('Workflow waiting proxy')
+        verbose_name_plural = _('Workflow waiting proxies')
 
     def get_document_count(self, user):
         """
