@@ -261,10 +261,12 @@ class DocumentStatesApp(MayanAppConfig):
             source=Workflow
         )
         column_workflow_internal_name.add_exclude(source=WorkflowRuntimeProxy)
-        SourceColumn(
+        column_workflow_internal_name.add_exclude(source=WorkflowWaitingProxy)
+        column_initial_state_name=SourceColumn(
             attribute='get_initial_state', empty_value=_('None'),
             include_label=True, source=Workflow
         )
+        column_initial_state_name.add_exclude(source=WorkflowWaitingProxy)
 
         SourceColumn(
             attribute='get_current_state', include_label=True,
@@ -419,10 +421,11 @@ class DocumentStatesApp(MayanAppConfig):
             source=WorkflowRuntimeProxy
         )
 
+
         SourceColumn(
             func=lambda context: context['object'].get_document_count(
                 user=context['request'].user
-            ), include_label=True, label=_('Documents'), order=99,
+            ), include_label=True, label=_('Waiting Documents'), order=99,
             source=WorkflowWaitingProxy
         )
         SourceColumn(
@@ -462,6 +465,16 @@ class DocumentStatesApp(MayanAppConfig):
                 link_workflow_template_state_list, link_workflow_template_transition_list,
                 link_workflow_template_preview
             ), sources=(WorkflowRuntimeProxy,)
+        )
+
+        menu_list_facet.unbind_links(
+            links=(
+                link_acl_list, link_events_for_object,
+                link_object_event_types_user_subcriptions_list,
+                link_workflow_template_document_types,
+                link_workflow_template_state_list, link_workflow_template_transition_list,
+                link_workflow_template_preview
+            ), sources=(WorkflowWaitingProxy,)
         )
 
         menu_list_facet.bind_links(
@@ -528,6 +541,14 @@ class DocumentStatesApp(MayanAppConfig):
                 link_workflow_runtime_proxy_state_list,
             ), sources=(WorkflowRuntimeProxy,)
         )
+
+        menu_list_facet.bind_links(
+            links=(
+                link_workflow_runtime_proxy_document_list,
+                # link_workflow_runtime_proxy_state_list,
+            ), sources=(WorkflowWaitingProxy,)
+        )
+
         menu_list_facet.bind_links(
             links=(
                 link_workflow_runtime_proxy_state_document_list,

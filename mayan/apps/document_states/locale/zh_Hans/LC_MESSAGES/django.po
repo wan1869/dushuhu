@@ -31,6 +31,8 @@ msgstr "待我审批"
 msgid "All Workflows"
 msgstr "所有流程"
 
+
+
 msgid "Launch approval workflows"
 msgstr "提交文件评审"
 
@@ -160,10 +162,19 @@ msgstr "操作"
 msgid "Namespace"
 msgstr "命名空间"
 
-#: forms.py:137 models.py:67 models.py:555 models.py:658 models.py:779
+#: forms.py:137  models.py:555 models.py:658 models.py:779
 #: models.py:877
 msgid "Label"
-msgstr "标签"
+msgstr "流程名称"
+
+#: models.py:67
+msgid "Label1"
+msgstr "流程名称"
+
+
+#: models.py:67
+msgid "Waiting Documents"
+msgstr "待审批文档"
 
 #: forms.py:141 models.py:660
 msgid "Enabled"

@@ -64,7 +64,7 @@ class Workflow(models.Model):
     )
     label = models.CharField(
         help_text=_('A short text to describe the workflow.'),
-        max_length=255, unique=True, verbose_name=_('Label')
+        max_length=255, unique=True, verbose_name=_('Label1')
     )
     document_types = models.ManyToManyField(
         related_name='workflows', to=DocumentType, verbose_name=_(
@@ -77,7 +77,7 @@ class Workflow(models.Model):
     class Meta:
         ordering = ('label',)
         verbose_name = _('Workflow')
-        verbose_name_plural = _('Workflows')
+        verbose_name_plural = _('workflows')
 
     def __str__(self):
         return self.label
@@ -1003,6 +1003,6 @@ class WorkflowWaitingProxy(Workflow):
         """
         return AccessControlList.objects.restrict_queryset(
             permission=permission_document_view,
-            queryset=Document.objects.filter(workflows__workflow=self),
+            queryset=Document.objects.filter(~Q(workflows__log_entries__transition__destination_state__completion=100)&Q(workflows__workflow=self)),
             user=user
         ).count()
