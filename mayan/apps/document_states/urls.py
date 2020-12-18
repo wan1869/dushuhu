@@ -14,7 +14,7 @@ from .views.workflow_instance_views import (
     WorkflowInstanceTransitionExecuteView
 )
 from .views.workflow_proxy_views import (
-    WorkflowRuntimeProxyDocumentListView,
+    WorkflowRuntimeProxyDocumentListView,WorkflowWaitingProxyDocumentListView,
     WorkflowRuntimeProxyListView, WorkflowRuntimeProxyStateDocumentListView,WorkflowRuntimeProxyWaitingListView,
     WorkflowRuntimeProxyStateListView
 )
@@ -76,6 +76,11 @@ urlpatterns_workflow_runtime_proxies = [
         regex=r'^workflow_runtime_proxies/(?P<workflow_runtime_proxy_id>\d+)/documents/$',
         name='workflow_runtime_proxy_document_list',
         view=WorkflowRuntimeProxyDocumentListView.as_view()
+    ),
+    url(
+        regex=r'^workflow_waiting_proxies/(?P<workflow_waiting_proxy_id>\d+)/documents/$',
+        name='workflow_waiting_proxy_document_list',
+        view=WorkflowWaitingProxyDocumentListView.as_view()
     ),
     url(
         regex=r'^workflow_runtime_proxies/(?P<workflow_runtime_proxy_id>\d+)/states/$',

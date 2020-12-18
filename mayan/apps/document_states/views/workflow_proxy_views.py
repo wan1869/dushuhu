@@ -1,5 +1,6 @@
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import F, Max, Q
 
 from mayan.apps.documents.models import Document
 from mayan.apps.documents.views.document_views import DocumentListView
@@ -44,6 +45,41 @@ class WorkflowRuntimeProxyDocumentListView(
             }
         )
         return context
+
+class WorkflowWaitingProxyDocumentListView(
+    ExternalObjectMixin, DocumentListView
+):
+    external_object_class = WorkflowWaitingProxy
+    external_object_permission = permission_workflow_view
+    external_object_pk_url_kwarg = 'workflow_waiting_proxy_id'
+
+    def get_document_queryset(self):
+        return Document.objects.filter(
+            # workflows__workflow=self.external_object
+            ~Q(workflows__log_entries__transition__destination_state__completion=100) & Q(workflows__workflow=self.external_object)
+        )
+
+    def get_extra_context(self):
+        context = super(
+            WorkflowWaitingProxyDocumentListView, self
+        ).get_extra_context()
+        context.update(
+            {
+                'no_results_text': _(
+                    'Associate a workflow with some document types and '
+                    'documents of those types will be listed in this view.'
+                ),
+                'no_results_title': _(
+                    'There are no documents executing this workflow'
+                ),
+                'object': self.external_object,
+                'title': _(
+                    'Documents with the workflow: %s'
+                ) % self.external_object
+            }
+        )
+        return context
+
 
 
 class WorkflowRuntimeProxyListView(SingleObjectListView):
@@ -152,3 +188,4 @@ class WorkflowRuntimeProxyStateListView(
         return WorkflowStateRuntimeProxy.objects.filter(
             workflow=self.external_object
         )
+

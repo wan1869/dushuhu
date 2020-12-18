@@ -26,7 +26,7 @@ msgid "Workflows"
 msgstr "工作流"
 
 msgid "Workflows list"
-msgstr "待我审批"
+msgstr "待审批"
 
 msgid "All Workflows"
 msgstr "所有流程"

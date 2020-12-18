@@ -236,6 +236,17 @@ link_workflow_runtime_proxy_document_list = Link(
     text=_('Workflow documents'),
     view='document_states:workflow_runtime_proxy_document_list',
 )
+
+# Waiting proxies
+
+link_workflow_waiting_proxy_document_list = Link(
+    args='resolved_object.pk',
+    icon_class_path='mayan.apps.document_states.icons.icon_workflow_runtime_proxy_document_list',
+    permissions=(permission_workflow_view,),
+    text=_('Workflow documents'),
+    view='document_states:workflow_waiting_proxy_document_list',
+)
+
 link_workflow_runtime_proxy_list = Link(
     condition=get_cascade_condition(
         app_label='document_states', model_name='WorkflowRuntimeProxy',
