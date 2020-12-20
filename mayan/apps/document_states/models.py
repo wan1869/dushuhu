@@ -1006,3 +1006,4 @@ class WorkflowWaitingProxy(Workflow):
             queryset=Document.objects.filter(~Q(workflows__log_entries__transition__destination_state__completion=100)&Q(workflows__workflow=self)),
             user=user
         ).count()
+

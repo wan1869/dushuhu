@@ -23,7 +23,7 @@ msgstr ""
 #: links.py:236 models.py:80 settings.py:13 views/workflow_proxy_views.py:66
 #: views/workflow_template_views.py:337 workflow_actions.py:74
 msgid "Workflows"
-msgstr "工作流"
+msgstr "审批流程"
 
 msgid "Workflows list"
 msgstr "待审批"
@@ -41,26 +41,26 @@ msgstr "提交年度审核"
 
 #: apps.py:171 apps.py:178
 msgid "Current state of a workflow"
-msgstr "工作流的当前状态"
+msgstr "当前审批状态"
 
 #: apps.py:172
 msgid "Return the current state of the selected workflow."
-msgstr ""
+msgstr "当前审批状态"
 
 #: apps.py:179
 msgid ""
 "Return the completion value of the current state of the selected workflow."
-msgstr ""
+msgstr "当前审批进度"
 
 #: apps.py:231
 msgid ""
 "Return the last workflow instance log entry. The log entry itself has the "
 "following fields: datetime, transition, user, and comment."
-msgstr ""
+msgstr "返回最新审批记录"
 
 #: apps.py:234
 msgid "Get last log entry"
-msgstr ""
+msgstr "最新审批记录"
 
 #: apps.py:240
 msgid ""
@@ -82,7 +82,7 @@ msgstr ""
 
 #: apps.py:263 apps.py:273 apps.py:282 apps.py:288
 msgid "None"
-msgstr "没有"
+msgstr "-"
 
 #: apps.py:269
 msgid "Current state"
@@ -94,15 +94,15 @@ msgstr "用户"
 
 #: apps.py:278
 msgid "Last transition"
-msgstr "最后的流转"
+msgstr "最后审批记录"
 
 #: apps.py:283 apps.py:294
 msgid "Date and time"
-msgstr "日期和时间"
+msgstr "审批时间"
 
 #: apps.py:289 models.py:568
 msgid "Completion"
-msgstr "完成"
+msgstr "完成比例（%）"
 
 #: apps.py:319
 msgid "Additional details"
@@ -131,7 +131,7 @@ msgstr "类型"
 
 #: apps.py:405
 msgid "Widget"
-msgstr ""
+msgstr "组件"
 
 #: apps.py:416 apps.py:422
 msgid "Documents"
@@ -190,11 +190,11 @@ msgstr "是"
 
 #: forms.py:194
 msgid "Select a transition to execute in the next step."
-msgstr ""
+msgstr "选择审批结论"
 
 #: forms.py:195 links.py:218 models.py:463 models.py:863 models.py:942
 msgid "Transition"
-msgstr "流转"
+msgstr "审批"
 
 #: handlers.py:71
 #, python-format
@@ -219,7 +219,7 @@ msgstr "编辑"
 
 #: links.py:54
 msgid "Launch workflow"
-msgstr ""
+msgstr "启动工作流"
 
 #: links.py:66
 msgid "Preview"
@@ -251,11 +251,11 @@ msgstr "流转触发器"
 
 #: links.py:157
 msgid "Transitions"
-msgstr "流转"
+msgstr "审批"
 
 #: links.py:165 links.py:171 workflow_actions.py:83
 msgid "Launch workflows"
-msgstr ""
+msgstr "启动工作流"
 
 #: links.py:177
 msgid "Create field"
@@ -321,11 +321,11 @@ msgstr "内部名称"
 
 #: models.py:66
 msgid "A short text to describe the workflow."
-msgstr ""
+msgstr "工作流简述"
 
 #: models.py:79 models.py:298 models.py:551 models.py:775
 msgid "Workflow"
-msgstr "工作流"
+msgstr "审批工作流"
 
 #: models.py:157
 msgid "Initial state"
@@ -337,7 +337,7 @@ msgstr "文档"
 
 #: models.py:305
 msgid "Context"
-msgstr ""
+msgstr "上下文"
 
 #: models.py:311 models.py:456
 msgid "Workflow instance"
@@ -357,7 +357,7 @@ msgstr "评论"
 
 #: models.py:470
 msgid "Extra data"
-msgstr ""
+msgstr "附加数据"
 
 #: models.py:474
 msgid "Workflow instance log entry"
@@ -373,7 +373,7 @@ msgstr "不是有效的流转选择。"
 
 #: models.py:554
 msgid "A short text to describe the workflow state."
-msgstr ""
+msgstr "工作流状态描述"
 
 #: models.py:560
 msgid ""
@@ -752,11 +752,11 @@ msgstr "提交"
 #: views/workflow_instance_views.py:106
 #, python-format
 msgid "Execute transition \"%(transition)s\" for workflow: %(workflow)s"
-msgstr ""
+msgstr "工作流: %(workflow)s ；审批环节：\"%(transition)s\" "
 
 #: views/workflow_instance_views.py:121
 msgid "Optional comment to attach to the transition."
-msgstr ""
+msgstr "评审意见"
 
 #: views/workflow_instance_views.py:191
 msgid "Select"
@@ -765,7 +765,7 @@ msgstr "选择"
 #: views/workflow_instance_views.py:193
 #, python-format
 msgid "Select transition for workflow: %s"
-msgstr ""
+msgstr "审批：%s"
 
 #: views/workflow_proxy_views.py:34
 msgid ""

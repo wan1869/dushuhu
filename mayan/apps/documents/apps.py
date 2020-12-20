@@ -463,6 +463,8 @@ class DocumentsApp(MayanAppConfig):
             links=(link_duplicated_document_scan,)
         )
 
+
+
         # Document type links
         menu_list_facet.bind_links(
             links=(

@@ -529,6 +529,7 @@ class DocumentStatesApp(MayanAppConfig):
                 link_workflow_template_transition_field_edit
             ), sources=(WorkflowTransitionField,)
         )
+
         menu_object.bind_links(
             links=(
                 link_workflow_instance_detail,
