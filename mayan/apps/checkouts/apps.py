@@ -104,9 +104,9 @@ class CheckoutsApp(MayanAppConfig):
             source=CheckedOutDocument
         )
 
-        dashboard_main.add_widget(
-            widget=DashboardWidgetTotalCheckouts, order=-1
-        )
+        # dashboard_main.add_widget(
+        #     widget=DashboardWidgetTotalCheckouts, order=-1
+        # )
 
         menu_facet.bind_links(
             links=(link_check_out_info,), sources=(Document,)

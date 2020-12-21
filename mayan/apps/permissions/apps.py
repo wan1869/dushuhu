@@ -99,9 +99,9 @@ class PermissionsApp(MayanAppConfig):
             ), include_label=True, label=_('Group count'), source=Role
         )
 
-        dashboard_main.add_widget(
-            widget=DashboardWidgetRoleTotal, order=99
-        )
+        # dashboard_main.add_widget(
+        #     widget=DashboardWidgetRoleTotal, order=99
+        # )
 
         menu_list_facet.bind_links(
             links=(

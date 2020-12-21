@@ -235,12 +235,12 @@ class UserManagementApp(MayanAppConfig):
         )
         User.add_to_class(name='save', value=get_method_user_save())
 
-        dashboard_main.add_widget(
-            widget=DashboardWidgetUserTotal, order=99
-        )
-        dashboard_main.add_widget(
-            widget=DashboardWidgetGroupTotal, order=99
-        )
+        # dashboard_main.add_widget(
+        #     widget=DashboardWidgetUserTotal, order=99
+        # )
+        # dashboard_main.add_widget(
+        #     widget=DashboardWidgetGroupTotal, order=99
+        # )
 
         menu_list_facet.bind_links(
             links=(

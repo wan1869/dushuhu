@@ -397,7 +397,7 @@ msgstr "识别码"
 
 #: templates/appearance/home.html:10
 msgid "Dashboard"
-msgstr "仪表板"
+msgstr "工作台"
 
 #: templates/appearance/home.html:26
 msgid "Getting started"
