@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from mayan.apps.acls.classes import ModelPermission
 from mayan.apps.acls.links import link_acl_list
 from mayan.apps.common.apps import MayanAppConfig
+from mayan.apps.dashboards.dashboards import dashboard_main
 from mayan.apps.common.classes import (
     ModelCopy, ModelField, ModelProperty, ModelReverseField
 )
@@ -62,6 +63,9 @@ from .permissions import (
     permission_workflow_delete, permission_workflow_edit,
     permission_workflow_tools, permission_workflow_transition,
     permission_workflow_view
+)
+from .dashboard_widgets import (
+    DashboardWidgetWaitingWorkflows
 )
 
 
@@ -641,4 +645,8 @@ class DocumentStatesApp(MayanAppConfig):
             dispatch_uid='workflows_handler_trigger_transition',
             receiver=handler_trigger_transition,
             sender=Action
+        )
+
+        dashboard_main.add_widget(
+            widget=DashboardWidgetWaitingWorkflows, order=99
         )
