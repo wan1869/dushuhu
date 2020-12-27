@@ -83,7 +83,11 @@ msgstr "默认"
 
 #: links.py:58
 msgid "New document"
-msgstr "新文档"
+msgstr "新建文档"
+
+#: links.py:58
+msgid "New document version"
+msgstr "新增版本"
 
 #: links.py:70
 msgid "Add new IMAP email"
@@ -748,6 +752,10 @@ msgstr "提交"
 #: wizards.py:95
 msgid "Select document type"
 msgstr "选择文档类型"
+
+#: wizards.py:95
+msgid "Select document"
+msgstr "选择文档"
 
 #: wizards.py:176
 #, python-format

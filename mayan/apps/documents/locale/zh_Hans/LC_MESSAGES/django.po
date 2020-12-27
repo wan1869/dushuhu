@@ -167,7 +167,7 @@ msgstr "文档属性已编辑"
 
 #: events.py:23
 msgid "Document trashed"
-msgstr ""
+msgstr "已移至垃圾箱"
 
 #: events.py:27
 msgid "Document type changed"
@@ -1498,4 +1498,8 @@ msgstr "页数：%d"
 
 #: workflow_actions.py:7
 msgid "Send document to trash"
-msgstr ""
+msgstr "移至垃圾箱"
+
+#: workflow_actions.py:7
+msgid "Upload as new version"
+msgstr "上传为新版本"

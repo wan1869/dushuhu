@@ -58,6 +58,15 @@ link_document_create_multiple = Link(
     text=_('New document'),
     view='sources:document_create_multiple'
 )
+
+#客户化代码 新版本上传菜单的链接
+link_document_version_create_multiple = Link(
+    condition=condition_document_creation_access,
+    icon_class_path='mayan.apps.sources.icons.icon_document_create_multiple',
+    text=_('New document version'),
+    view='sources:document_version_create_multiple'
+)
+
 link_setup_sources = Link(
     icon_class_path='mayan.apps.sources.icons.icon_setup_sources',
     permissions=(permission_sources_setup_view,), text=_('Sources'),

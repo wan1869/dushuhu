@@ -23,7 +23,7 @@ from .handlers import (
     handler_initialize_periodic_tasks
 )
 from .links import (
-    link_document_create_multiple, link_setup_sources,
+    link_document_create_multiple, link_document_version_create_multiple,link_setup_sources,
     link_setup_source_check_now, link_setup_source_create_imap_email,
     link_setup_source_create_pop3_email, link_setup_source_create_sane_scanner,
     link_setup_source_create_watch_folder, link_setup_source_create_webform,
@@ -105,8 +105,8 @@ class SourcesApp(MayanAppConfig):
                 instance=context['object'],
             )
         )
-
-        menu_documents.bind_links(links=(link_document_create_multiple,))
+        # 客户化代码 主菜单新增"新增版本"链接
+        menu_documents.bind_links(links=(link_document_create_multiple,link_document_version_create_multiple))
 
         menu_list_facet.bind_links(
             links=(

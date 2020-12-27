@@ -6,6 +6,7 @@ from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.common.forms import DetailForm
+from mayan.apps.acls.models import AccessControlList
 
 from ..fields import DocumentField
 from ..models import Document
@@ -197,3 +198,41 @@ class DocumentPrintForm(forms.Form):
         widget=forms.RadioSelect
     )
     page_range = forms.CharField(label=_('Page range'), required=False)
+
+
+# 客户化代码 "新增版本"菜单 第一步：选择文档 FORM类
+class DocumentFilteredSelectForm(forms.Form):
+    """
+    Form to select the document  to be added versions. This form
+    is meant to be reused and reconfigured by other apps. Example: Used
+    as form #1 in the document creation wizard.
+    """
+    def __init__(self, *args, **kwargs):
+        help_text = kwargs.pop('help_text', None)
+        if kwargs.pop('allow_multiple', False):
+            extra_kwargs = {}
+            field_class = forms.ModelMultipleChoiceField
+            widget_class = forms.widgets.SelectMultiple
+        else:
+            extra_kwargs = {'empty_label': None}
+            field_class = forms.ModelChoiceField
+            widget_class = forms.widgets.Select
+
+        permission = kwargs.pop('permission', None)
+        user = kwargs.pop('user', None)
+
+        super(DocumentFilteredSelectForm, self).__init__(*args, **kwargs)
+
+        queryset = Document.objects.all()
+        if permission:
+            queryset = AccessControlList.objects.restrict_queryset(
+                permission=permission, queryset=queryset, user=user
+            )
+
+        # 给form添加选择文档的单选下拉
+        self.fields['document_id'] = field_class(
+            help_text=help_text, label=_('Document'),
+            queryset=queryset, required=True,
+            widget=widget_class(attrs={'class': 'select2', 'size': 10}),
+            **extra_kwargs
+        )

@@ -325,7 +325,7 @@ msgstr "工作流简述"
 
 #: models.py:79 models.py:298 models.py:551 models.py:775
 msgid "Workflow"
-msgstr "审批工作流"
+msgstr "文档审批"
 
 #: models.py:157
 msgid "Initial state"

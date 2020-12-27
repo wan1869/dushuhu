@@ -8,9 +8,11 @@ from .api_views import (
 from .views import (
     SourceCheckView, SourceCreateView, SourceDeleteView,
     SourceEditView, SourceListView, StagingFileDeleteView,
-    DocumentVersionUploadInteractiveView, UploadInteractiveView
+    DocumentVersionUploadInteractiveView, UploadInteractiveView,UploadNewVersionInteractiveView
 )
 from .wizards import DocumentCreateWizard
+# 客户化代码 新增版本菜单的wizard视图
+from .customwizards import DocumentVersionCreateWizard
 
 urlpatterns = [
     url(
@@ -24,6 +26,11 @@ urlpatterns = [
         regex=r'^documents/create/from/local/multiple/$',
         name='document_create_multiple', view=DocumentCreateWizard.as_view()
     ),
+    # 客户化代码 菜单"新增版本"链接
+    url(
+        regex=r'^documents/version/create/from/local/multiple/$',
+        name='document_version_create_multiple', view=DocumentVersionCreateWizard.as_view()
+    ),
     url(
         regex=r'^documents/upload/new/interactive/(?P<source_id>\d+)/$',
         name='document_upload_interactive',
@@ -34,6 +41,12 @@ urlpatterns = [
         name='document_upload_interactive',
         view=UploadInteractiveView.as_view()
     ),
+    # 客户化代码 跳转文件新版本上传视图
+    url(
+        regex=r'^documents/upload/new/version/interactive/$',
+        name='document_upload_new_version',
+        view=UploadNewVersionInteractiveView.as_view()
+    ),
     url(
         regex=r'^documents/(?P<document_id>\d+)/versions/upload/interactive/(?P<source_id>\d+)/$',
         name='document_version_upload',
@@ -43,6 +56,11 @@ urlpatterns = [
         regex=r'^documents/(?P<document_id>\d+)/versions/upload/interactive/$',
         name='document_version_upload',
         view=DocumentVersionUploadInteractiveView.as_view()
+    ),
+    url(
+        regex=r'^documents/upload/new/interactive/(?P<versioned_document_id>\d+)/$',
+        name='document_upload_new_version_document',
+        view=UploadNewVersionInteractiveView.as_view()
     ),
 
     # Setup views
