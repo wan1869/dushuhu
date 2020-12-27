@@ -111,7 +111,7 @@ class CheckoutsApp(MayanAppConfig):
         menu_facet.bind_links(
             links=(link_check_out_info,), sources=(Document,)
         )
-        menu_main.bind_links(links=(link_check_out_list,), position=98)
+        # menu_main.bind_links(links=(link_check_out_list,), position=98)
         menu_multi_item.bind_links(
             links=(
                 link_check_in_document_multiple,
