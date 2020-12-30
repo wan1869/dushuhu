@@ -50,7 +50,7 @@ msgstr "命名空间"
 
 #: apps.py:62 forms.py:14 forms.py:71
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: apps.py:86
 msgid "Seen"

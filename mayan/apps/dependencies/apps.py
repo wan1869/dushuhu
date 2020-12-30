@@ -83,8 +83,12 @@ class DependenciesApp(MayanAppConfig):
             label=_('Description'), order=1, source=DependencyGroupEntry
         )
 
+        # menu_about.bind_links(
+        #     links=(link_packages_licenses, link_check_version)
+        # )
+
         menu_about.bind_links(
-            links=(link_packages_licenses, link_check_version)
+            links=(link_packages_licenses,)
         )
 
         menu_list_facet.bind_links(

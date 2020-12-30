@@ -108,6 +108,7 @@ class SourcesApp(MayanAppConfig):
         # 客户化代码 主菜单新增"新增版本"链接
         menu_documents.bind_links(links=(link_document_create_multiple,link_document_version_create_multiple))
 
+
         menu_list_facet.bind_links(
             links=(
                 link_transformation_list,

@@ -68,7 +68,7 @@ msgstr ""
 
 #: models.py:23
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:27
 msgid "Template that will be used to craft the final URL of the web link."

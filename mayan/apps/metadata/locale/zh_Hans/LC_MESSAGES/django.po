@@ -127,7 +127,7 @@ msgstr "可选的"
 
 #: forms.py:196 models.py:53 search.py:34
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: forms.py:200
 msgid "Relationship"

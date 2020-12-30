@@ -113,8 +113,8 @@ with open(file='HISTORY.rst') as file_object:
     history = file_object.read()
 
 setup(
-    author='Roberto Rosario',
-    author_email='roberto.rosario@mayan-edms.com',
+    author='John si',
+    author_email='348977654@qq.com',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',

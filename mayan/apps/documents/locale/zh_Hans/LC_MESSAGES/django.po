@@ -494,7 +494,7 @@ msgstr "文档的名称。"
 #: models/document_models.py:68 models/document_page_models.py:272
 #: models/document_type_models.py:31 models/document_type_models.py:191
 msgid "Label"
-msgstr "标签"
+msgstr "文件名称"
 
 #: models/document_models.py:72
 msgid "An optional short text describing a document."
@@ -816,7 +816,7 @@ msgstr ""
 
 #: search.py:35 search.py:54
 msgid "Document type label"
-msgstr ""
+msgstr "文档类型"
 
 #: settings.py:26
 msgid ""

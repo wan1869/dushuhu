@@ -23,7 +23,7 @@ msgstr ""
 
 #: admin.py:13
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: apps.py:49 events.py:6 links.py:17 permissions.py:5 queues.py:7
 #: settings.py:9

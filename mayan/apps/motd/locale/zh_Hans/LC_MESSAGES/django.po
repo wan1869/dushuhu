@@ -57,7 +57,7 @@ msgstr "此消息的简短描述。"
 
 #: models.py:18
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:21
 msgid "The actual message to be displayed."

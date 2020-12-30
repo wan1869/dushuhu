@@ -27,7 +27,7 @@ msgstr "依赖关系"
 
 #: apps.py:32 apps.py:69 apps.py:78
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: apps.py:36
 msgid "Internal name"

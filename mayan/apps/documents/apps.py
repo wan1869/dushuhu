@@ -315,11 +315,11 @@ class DocumentsApp(MayanAppConfig):
         SourceColumn(
             attribute='document_type', is_sortable=True, source=Document,
         )
-        SourceColumn(
-            func=lambda context: widget_document_page_number(
-                document=context['object']
-            ), label=_('Pages'), source=Document
-        )
+        # SourceColumn(
+        #     func=lambda context: widget_document_page_number(
+        #         document=context['object']
+        #     ), label=_('Pages'), source=Document
+        # )
         SourceColumn(
             attribute='date_added', include_label=True, is_sortable=True,
             source=Document, views=('documents:document_list_recent_added',)

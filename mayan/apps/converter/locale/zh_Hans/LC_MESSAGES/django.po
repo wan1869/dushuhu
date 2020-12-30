@@ -122,7 +122,7 @@ msgstr "选择新的转换"
 
 #: models.py:36
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:40
 msgid ""

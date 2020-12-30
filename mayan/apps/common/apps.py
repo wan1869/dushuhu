@@ -162,7 +162,11 @@ class CommonApp(AppConfigLoggingMixin, MayanAppConfig):
                 link_tools, link_setup, link_about,
             )
         )
-
+        menu_about.bind_links(
+            links=(
+                 link_setup,
+            )
+        )
         menu_topbar.bind_links(links=(menu_about, menu_user,), position=99)
 
         signal_pre_initial_setup.connect(

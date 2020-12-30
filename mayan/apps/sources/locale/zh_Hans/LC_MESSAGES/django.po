@@ -203,7 +203,7 @@ msgstr ""
 
 #: models/base.py:27
 msgid "Label"
-msgstr "标签"
+msgstr "文件名称"
 
 #: models/base.py:29
 msgid "Enabled"

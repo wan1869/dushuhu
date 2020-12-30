@@ -25,7 +25,7 @@ msgstr "链接"
 
 #: apps.py:96 models.py:25
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: events.py:6 links.py:18 links.py:77 links.py:82 links.py:87 models.py:44
 #: permissions.py:5 views.py:203

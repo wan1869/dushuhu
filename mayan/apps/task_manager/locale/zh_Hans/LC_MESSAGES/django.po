@@ -26,7 +26,7 @@ msgstr "任务管理器"
 
 #: apps.py:24
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: apps.py:28
 msgid "Name"
@@ -38,7 +38,7 @@ msgstr "默认队列？"
 
 #: apps.py:38
 msgid "Is transient?"
-msgstr "是临时的吗？"
+msgstr "是内存暂存的吗？"
 
 #: apps.py:42
 msgid "Type"

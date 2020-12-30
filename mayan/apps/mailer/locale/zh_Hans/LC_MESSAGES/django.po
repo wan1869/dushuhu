@@ -216,7 +216,7 @@ msgstr ""
 
 #: models.py:33
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:37
 msgid ""

@@ -92,7 +92,7 @@ msgstr "用于标识文档柜的简短文本。"
 
 #: models.py:32
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:36
 msgid "Documents"

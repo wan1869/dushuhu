@@ -86,7 +86,7 @@ msgstr "角色描述"
 
 #: models.py:100 search.py:14
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:114
 msgid "Role"

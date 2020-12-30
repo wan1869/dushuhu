@@ -87,7 +87,7 @@ msgstr "用作标签名称的简短文本。"
 
 #: models.py:25
 msgid "Label"
-msgstr "标签"
+msgstr "名称"
 
 #: models.py:28
 msgid "The RGB color values for the tag."
