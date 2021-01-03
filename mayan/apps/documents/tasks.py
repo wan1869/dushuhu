@@ -40,6 +40,16 @@ def task_check_trash_periods():
 
     DocumentType.objects.check_trash_periods()
 
+#客户化代码 每天检查文档生效时间
+@app.task(ignore_result=True)
+def task_check_effective_doc():
+    DocumentType = apps.get_model(
+        app_label='documents', model_name='DocumentType'
+    )
+
+    DocumentType.objects.check_effective_doc()
+
+
 
 @app.task(ignore_result=True)
 def task_delete_document(trashed_document_id):
@@ -59,7 +69,7 @@ def task_delete_stubs():
         app_label='documents', model_name='Document'
     )
 
-    logger.info(msg='Executing')
+    logger.debug(msg='Executing')
     Document.objects.delete_stubs()
     logger.info(msg='Finshed')
 

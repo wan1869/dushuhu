@@ -102,7 +102,7 @@ class TransformationAddAction(WorkflowAction):
                 arguments=self.form_data['transformation_arguments']
             )
 
-
+#客户化代码 给文档增加审批人水印
 class TransformationWatermarkLabelAction(WorkflowAction):
     fields = {
         'pages': {

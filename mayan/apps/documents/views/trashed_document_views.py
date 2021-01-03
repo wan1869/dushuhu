@@ -78,11 +78,11 @@ class EmptyTrashCanView(ConfirmView):
 
     def view_action(self):
         task_trash_can_empty.apply_async()
-
         messages.success(
             message=_('The trash emptying task has been queued.'),
             request=self.request
         )
+
 
 
 class TrashedDocumentDeleteView(MultipleObjectConfirmActionView):

@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, date
 import logging
 
 from django.apps import apps
@@ -6,12 +6,14 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import F, Max
 from django.utils.encoding import force_text
-from django.utils.timezone import now
+from django.utils.timezone import now,datetime
 
 from .settings import (
     setting_favorite_count, setting_recent_access_count,
     setting_stub_expiration_interval
 )
+
+
 
 logger = logging.getLogger(name=__name__)
 
@@ -39,9 +41,84 @@ class DocumentPageManager(models.Manager):
 
 
 class DocumentTypeManager(models.Manager):
+    # 客户化代码 每天检查新版本：celery异步任务
+    def check_effective_doc(self):
+        logger.warning(msg='==========================================Executing to check new versions==========================================')
+
+        documentMetadata = apps.get_model(
+            app_label='metadata', model_name='DocumentMetadata'
+        )
+        metadatatype = apps.get_model(
+            app_label='metadata', model_name='MetadataType'
+        )
+        user = apps.get_model(
+            app_label='auth', model_name='User'
+        )
+        for document_type in self.all():
+            logger.info(
+                'Checking deletion period of document type: %s', document_type
+            )
+            if document_type.pk == 1:
+                logger.info(
+                    'Document type: %s, check the new published version ',
+                    document_type
+                )
+                for document in document_type.documents.exclude(pk__isnull=True):
+                    logger.info(
+                        'Document "%s" with id: %d, trashed on: %s, exceded '
+                        'delete period', document, document.pk
+                    )
+                    metadata_types = metadatatype.objects.filter(name="effective_date")
+                    document_metadata =documentMetadata.objects.get(
+                        document=document, metadata_type=metadata_types[0]
+                    )
+
+                    if  document_metadata.value == date.strftime(date.today(),'%Y-%m-%d') and len(document_metadata.value) > 0:
+                        documentCheckout = apps.get_model(
+                            app_label='checkouts', model_name='DocumentCheckout'
+                        )
+                        if documentCheckout.is_checked_out(document=document):
+                            pass
+                        else:
+                            admin = user.objects.get(pk=1)
+                            documentCheckout.objects.check_out_document(
+                                block_new_version=True,
+                                document=document,
+                                expiration_datetime=datetime.strptime('9999-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'),
+                                user=admin,
+                            )
+
+            else:
+                logger.info(
+                    'Document type: %s, has a no retention delta', document_type
+                )
+                for document in document_type.documents.exclude(pk__isnull=True):
+                    logger.info(
+                        'Document "%s" with id: %d, trashed on: %s, exceded '
+                        'delete period', document, document.pk
+                    )
+                    metadata_types = metadatatype.objects.filter(name="effective_date")
+                    document_metadata = documentMetadata.objects.get(
+                        document=document, metadata_type=metadata_types[0]
+                    )
+
+                    if document_metadata.value == date.strftime(date.today(), '%Y-%m-%d') and len(
+                            document_metadata.value) > 0:
+                        Comment = apps.get_model(
+                            app_label='document_comments', model_name='Comment'
+                        )
+                        admin = user.objects.get(pk=1)
+                        comment = Comment(
+                            document=document,
+                            user=admin,
+                            comment="First version take effect",
+                            submit_date=now(),
+                        )
+                        comment.save()
+
+
     def check_delete_periods(self):
         logger.info(msg='Executing')
-
         for document_type in self.all():
             logger.info(
                 'Checking deletion period of document type: %s', document_type
@@ -103,6 +180,8 @@ class DocumentTypeManager(models.Manager):
 
     def get_by_natural_key(self, label):
         return self.get(label=label)
+
+
 
 
 class DocumentVersionManager(models.Manager):

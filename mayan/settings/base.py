@@ -8,12 +8,13 @@ from mayan.apps.smart_settings.utils import SettingNamespaceSingleton
 
 from .literals import DEFAULT_SECRET_KEY, SECRET_KEY_FILENAME, SYSTEM_DIR
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/ce
 
 setting_namespace = SettingNamespaceSingleton(global_symbol_table=globals())
 if 'revertsettings' in sys.argv:
@@ -189,7 +190,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -280,7 +281,7 @@ CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_TASK_QUEUES = []
 CELERY_TASK_ROUTES = {}
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
+CELERY_TIMEZONE = 'Asia/Shanghai'
 
 # ------------ CORS ------------
 

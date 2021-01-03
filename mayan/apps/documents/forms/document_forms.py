@@ -223,7 +223,7 @@ class DocumentFilteredSelectForm(forms.Form):
 
         super(DocumentFilteredSelectForm, self).__init__(*args, **kwargs)
 
-        queryset = Document.objects.all()
+        queryset = Document.objects.exclude(document_type__pk=1)
         if permission:
             queryset = AccessControlList.objects.restrict_queryset(
                 permission=permission, queryset=queryset, user=user

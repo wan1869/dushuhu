@@ -1,7 +1,6 @@
 from furl import furl
 
-from django.apps import apps
-from django.contrib import messages
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import classonlymethod
@@ -14,7 +13,7 @@ from mayan.apps.documents.permissions import permission_document_create
 
 from .icons import icon_wizard_submit
 
-
+#客户化代码 新版本上传向导页
 class WizardStep:
     _deregistry = {}
     _registry = {}

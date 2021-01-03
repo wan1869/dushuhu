@@ -8,7 +8,7 @@ from mayan.apps.task_manager.workers import worker_fast, worker_medium
 
 from .literals import (
     CHECK_DELETE_PERIOD_INTERVAL, CHECK_TRASH_PERIOD_INTERVAL,
-    DELETE_STALE_STUBS_INTERVAL
+    DELETE_STALE_STUBS_INTERVAL,DEFAULT_STUB_EXPIRATION_INTERVAL
 )
 
 queue_converter = CeleryQueue(
@@ -43,6 +43,23 @@ queue_documents.add_task_type(
     label=_('Empty the trash can')
 )
 
+#客户化代码 按照生效日期生效文档
+queue_documents.add_task_type(
+    dotted_path='mayan.apps.documents.tasks.task_check_effective_doc',
+    label=_('check the effective date')
+)
+
+#客户化代码 每天按照生效日期检查文档生效：DEFAULT_STUB_EXPIRATION_INTERVAL
+queue_documents_periodic.add_task_type(
+    dotted_path='mayan.apps.documents.tasks.task_check_effective_doc',
+    label=_('check the effective date daily'),
+    name='task_check_effective_doc',
+    schedule=timedelta(
+        seconds=DEFAULT_STUB_EXPIRATION_INTERVAL
+    ),
+)
+
+
 queue_documents_periodic.add_task_type(
     dotted_path='mayan.apps.documents.tasks.task_check_delete_periods',
     label=_('Check document type delete periods'),
@@ -51,6 +68,8 @@ queue_documents_periodic.add_task_type(
         seconds=CHECK_DELETE_PERIOD_INTERVAL
     ),
 )
+
+
 queue_documents_periodic.add_task_type(
     dotted_path='mayan.apps.documents.tasks.task_check_trash_periods',
     label=_('Check document type trash periods'),

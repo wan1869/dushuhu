@@ -69,7 +69,7 @@ class StoredPermission(models.Model):
         The check always returns True for superusers or staff users.
         """
         if user.is_superuser or user.is_staff:
-            logger.debug(
+            logger.info(
                 'Permission "%s" granted to user "%s" as superuser or staff',
                 self, user
             )
@@ -81,7 +81,7 @@ class StoredPermission(models.Model):
         if Role.objects.filter(groups__user=user, permissions=self).exists():
             return True
         else:
-            logger.debug(
+            logger.info(
                 'Fallthru: Permission "%s" not granted to user "%s"', self, user
             )
             return False
