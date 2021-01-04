@@ -393,7 +393,7 @@ msgstr "取消"
 
 #: templates/appearance/generic_list_subtemplate.html:28
 msgid "Identifier"
-msgstr "识别码"
+msgstr "流程名称"
 
 #: templates/appearance/home.html:10
 msgid "Dashboard"

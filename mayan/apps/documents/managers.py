@@ -48,7 +48,7 @@ class DocumentTypeManager(models.Manager):
         DocumentMetadata = apps.get_model(
             app_label='metadata', model_name='DocumentMetadata'
         )
-        metadatatype = apps.get_model(
+        MetadataType = apps.get_model(
             app_label='metadata', model_name='MetadataType'
         )
         user = apps.get_model(
@@ -68,10 +68,15 @@ class DocumentTypeManager(models.Manager):
                         'Document "%s" with id: %d, trashed on: %s, exceded '
                         'delete period', document, document.pk
                     )
-                    metadata_types = metadatatype.objects.filter(name="effective_date")
-                    document_metadata =documentMetadata.objects.get(
-                        document=document, metadata_type=metadata_types[0]
-                    )
+                    try:
+                        metadata_types = MetadataType.objects.get(name="effective_date")
+                        document_metadata =DocumentMetadata.objects.get(
+                            document=document, metadata_type=metadata_types
+                        )
+                    except MetadataType.DoesNotExist:
+                        continue
+                    except DocumentMetadata.DoesNotExist:
+                        continue
 
                     if  document_metadata.value == date.strftime(date.today(),'%Y-%m-%d') and len(document_metadata.value) > 0:
                         documentCheckout = apps.get_model(
@@ -97,12 +102,15 @@ class DocumentTypeManager(models.Manager):
                         'Document "%s" with id: %d, trashed on: %s, exceded '
                         'delete period', document, document.pk
                     )
-                    metadata_types = metadatatype.objects.get(name="effective_date")
+
 
                     try:
+                        metadata_types = MetadataType.objects.get(name="effective_date")
                         document_metadata = DocumentMetadata.objects.get(
                             document=document, metadata_type=metadata_types
                         )
+                    except MetadataType.DoesNotExist:
+                        continue
                     except DocumentMetadata.DoesNotExist:
                         continue
 
