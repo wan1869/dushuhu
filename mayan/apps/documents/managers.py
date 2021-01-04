@@ -45,7 +45,7 @@ class DocumentTypeManager(models.Manager):
     def check_effective_doc(self):
         logger.warning(msg='==========================================Executing to check new versions==========================================')
 
-        documentMetadata = apps.get_model(
+        DocumentMetadata = apps.get_model(
             app_label='metadata', model_name='DocumentMetadata'
         )
         metadatatype = apps.get_model(
@@ -58,7 +58,7 @@ class DocumentTypeManager(models.Manager):
             logger.info(
                 'Checking deletion period of document type: %s', document_type
             )
-            if document_type.pk == 1:
+            if document_type.label == '默认':
                 logger.info(
                     'Document type: %s, check the new published version ',
                     document_type
@@ -97,10 +97,14 @@ class DocumentTypeManager(models.Manager):
                         'Document "%s" with id: %d, trashed on: %s, exceded '
                         'delete period', document, document.pk
                     )
-                    metadata_types = metadatatype.objects.filter(name="effective_date")
-                    document_metadata = documentMetadata.objects.get(
-                        document=document, metadata_type=metadata_types[0]
-                    )
+                    metadata_types = metadatatype.objects.get(name="effective_date")
+
+                    try:
+                        document_metadata = DocumentMetadata.objects.get(
+                            document=document, metadata_type=metadata_types
+                        )
+                    except DocumentMetadata.DoesNotExist:
+                        continue
 
                     if document_metadata.value == date.strftime(date.today(), '%Y-%m-%d') and len(
                             document_metadata.value) > 0:

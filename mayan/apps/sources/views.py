@@ -739,7 +739,7 @@ class UploadNewVersionInteractiveView(UploadBaseView):
 
         # 文档类型默认是default
         self.document_type = get_object_or_404(
-            klass=DocumentType, pk=1
+            klass=DocumentType, label='默认'
         )
 
         AccessControlList.objects.check_access(

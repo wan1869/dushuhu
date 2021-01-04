@@ -347,3 +347,14 @@ if not DATABASES:
                 'NAME': os.path.join(MEDIA_ROOT, 'db.sqlite3'),  # NOQA: F821
             }
         }
+        # DATABASES = {
+        #     'default': {
+        #         'ENGINE': 'django.db.backends.postgresql',  # NOQA: F821
+        #         'NAME': 'mayan',  # NOQA: F821
+        #         'USER': 'mayan',  # NOQA: F821
+        #         'PASSWORD': 'mayanuserpass',  # NOQA: F821
+        #         'HOST': '47.101.63.65',  # NOQA: F821
+        #         'PORT': '5432',  # NOQA: F821
+        #         # 'CONN_MAX_AGE': DATABASE_CONN_MAX_AGE  # NOQA: F821
+        #     }
+        # }
