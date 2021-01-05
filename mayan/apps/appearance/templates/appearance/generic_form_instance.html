@@ -27,7 +27,7 @@
                 {% if field|widget_type == 'radioselect' %}
                     <div class="btn-group" data-toggle="buttons">
                         {% for option in field %}
-                            <label class="btn btn-default {% if field.value == option.data.value %}active{% endif %}" for="{{ option.data.id }}">
+                            <label class="btn btn-primary {% if field.value == option.data.value %}active{% endif %}" for="{{ option.data.id }}">
                                 <input type="radio" name="{{ option.data.name }}" id="{{ option.data.id }}" value="{{ option.data.value }}" {% if field.value == option.data.value %}checked{% endif %}> {{ option.data.label }}
                             </label>
                         {% endfor %}
