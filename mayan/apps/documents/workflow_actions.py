@@ -1,9 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 
 from mayan.apps.document_states.classes import WorkflowAction
-from mayan.apps.documents.models import (
-    DocumentType, Document, DocumentVersion
-)
+from mayan.apps.documents.models import Document
 from django.shortcuts import get_object_or_404
 
 
@@ -18,9 +16,9 @@ class NewDocumentVersionAction(WorkflowAction):
     label = _('Upload as new version')
 
     def execute(self, context):
-        document_id = context['document'].description
+        document_uuid = context['document'].description
         # document = Document.objects.get(id=document_id)
-        document = get_object_or_404(klass=Document, pk=document_id)
+        document = get_object_or_404(klass=Document, uuid=document_uuid)
         file_object = context['document'].latest_version.file
         document.new_version(
             file_object=file_object, _user=None,

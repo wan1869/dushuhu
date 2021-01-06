@@ -737,7 +737,7 @@ class UploadNewVersionInteractiveView(UploadBaseView):
                  'versioned_document_id', self.request.POST.get('versioned_document_id')
             )
 
-        # 文档类型默认是default
+        # 客户化代码，文档类型默认是default
         self.document_type = get_object_or_404(
             klass=DocumentType, label='默认'
         )
@@ -798,8 +798,12 @@ class UploadNewVersionInteractiveView(UploadBaseView):
 
             querystring = self.request.GET.copy()
             querystring.update(self.request.POST)
-            document_str = querystring["versioned_document_id"]
+            document_id = querystring["versioned_document_id"]
+
+
             try:
+                # 得到该文档的UUID
+                document_uuid = Document.objects.get(pk=document_id).uuid
                 Document.execute_pre_create_hooks(
                     kwargs={
                         'document_type': self.document_type,
@@ -814,11 +818,11 @@ class UploadNewVersionInteractiveView(UploadBaseView):
                         'user': user
                     }
                 )
-
+                #将UUID传入文档的描述
                 task_source_handle_upload.apply_async(
                     kwargs=dict(
                         # description=forms['document_form'].cleaned_data.get('description'),
-                        description=document_str,
+                        description=document_uuid,
                         document_type_id=self.document_type.pk,
                         expand=expand,
                         label=forms['document_form'].get_final_label(
