@@ -110,7 +110,7 @@ msgstr "编辑"
 
 #: links.py:55 models.py:53 storages.py:19 views.py:127
 msgid "Assets"
-msgstr ""
+msgstr "签名图片"
 
 #: links.py:77
 msgid "Transformations"
@@ -200,19 +200,19 @@ msgstr ""
 
 #: permissions.py:8
 msgid "Create new assets"
-msgstr ""
+msgstr "创建图片"
 
 #: permissions.py:11
 msgid "Delete assets"
-msgstr ""
+msgstr "删除图片"
 
 #: permissions.py:14
 msgid "Edit assets"
-msgstr ""
+msgstr "编辑图片"
 
 #: permissions.py:17
 msgid "View existing assets"
-msgstr ""
+msgstr "查看图片"
 
 #: permissions.py:21
 msgid "Create new transformations"
@@ -435,3 +435,8 @@ msgstr ""
 #: workflow_actions.py:51
 msgid "Add transformation"
 msgstr ""
+
+
+#: 客户化代码 签名打水印 workflow_actions.py:130
+msgid "Watermark label"
+msgstr "电子签名水印"

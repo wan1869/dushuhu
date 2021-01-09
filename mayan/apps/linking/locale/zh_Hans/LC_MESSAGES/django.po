@@ -30,7 +30,7 @@ msgstr "名称"
 #: events.py:6 links.py:18 links.py:77 links.py:82 links.py:87 models.py:44
 #: permissions.py:5 views.py:203
 msgid "Smart links"
-msgstr "智能链接"
+msgstr "关联文档"
 
 #: events.py:10
 msgid "Smart link created"
@@ -62,7 +62,7 @@ msgstr "条件"
 
 #: links.py:49 views.py:239
 msgid "Create new smart link"
-msgstr "创建新的智能链接"
+msgstr "创建文档关联"
 
 #: links.py:61 models.py:36
 msgid "Document types"
@@ -160,7 +160,7 @@ msgstr "启用"
 
 #: models.py:43 models.py:167
 msgid "Smart link"
-msgstr "智能链接"
+msgstr "文档关联"
 
 #: models.py:82
 #, python-format
@@ -169,7 +169,7 @@ msgstr "生成动态标签时出错; %s"
 
 #: models.py:97
 msgid "This smart link is not allowed for the selected document's type."
-msgstr "所选文档的类型不允许使用此智能链接。"
+msgstr "所选文档的类型不适用此文档管理规则。"
 
 #: models.py:171
 msgid "The inclusion is ignored for the first item."
@@ -219,25 +219,25 @@ msgstr ""
 
 #: permissions.py:8
 msgid "Create new smart links"
-msgstr "创建新的智能链接"
+msgstr "创建文档关联规则"
 
 #: permissions.py:11
 msgid "Delete smart links"
-msgstr "删除智能链接"
+msgstr "删除文档关联"
 
 #: permissions.py:14
 msgid "Edit smart links"
-msgstr "编辑智能链接"
+msgstr "编辑文档关联规则"
 
 #: permissions.py:17
 msgid "View existing smart links"
-msgstr "查看现有的智能链接"
+msgstr "查看文档关联"
 
 #: serializers.py:115
 msgid ""
 "Comma separated list of document type primary keys to which this smart link "
 "will be attached."
-msgstr "以逗号分隔的文档类型主键列表，此智能链接将附加到该主键。"
+msgstr "以逗号分隔的文档类型主键列表，此文档关联规则将附加到该主键。"
 
 #: serializers.py:139
 #, python-format
@@ -260,17 +260,17 @@ msgstr ""
 #: views.py:115
 #, python-format
 msgid "Smart link query error: %s"
-msgstr "智能链接查询错误：%s"
+msgstr "关联文档查询错误：%s"
 
 #: views.py:126
 #, python-format
 msgid "Documents in smart link: %s"
-msgstr "智能链接中的文档：%s"
+msgstr "关联的文档：%s"
 
 #: views.py:129
 #, python-format
 msgid "Documents in smart link \"%(smart_link)s\" as related to \"%(document)s\""
-msgstr "与“%(document)s”相关的智能链接“%(smart_link)s”中的文档"
+msgstr "与“%(document)s”关联的“%(smart_link)s”中的文档"
 
 #: views.py:165
 msgid "Available document types"
@@ -283,69 +283,69 @@ msgstr "文档类型已启用"
 #: views.py:176
 #, python-format
 msgid "Document type for which to enable smart link: %s"
-msgstr "要为其启用智能链接的文档类型：%s"
+msgstr "要为其启用关联的文档类型：%s"
 
 #: views.py:194
 msgid ""
 "Indexes group documents into units, usually with similar properties and of "
 "equal or similar types. Smart links allow defining relationships between "
 "documents even if they are in different indexes and are of different types."
-msgstr "索引将文档分组为单元，通常具有相似的属性和相同或相似的类型。智能链接允许定义文档之间的关系，即使它们位于不同的索引中且属于不同类型。"
+msgstr "索引将文档分组为单元，通常具有相似的属性和相同或相似的类型。文档关联允许定义文档之间的关系，即使它们位于不同的索引中且属于不同类型。"
 
 #: views.py:201
 msgid "There are no smart links"
-msgstr "没有智能链接"
+msgstr "没有文档关联"
 
 #: views.py:219
 msgid ""
 "Smart links allow defining relationships between documents even if they are "
 "in different indexes and are of different types."
-msgstr "智能链接允许定义文档之间的关系，即使它们位于不同的索引中且属于不同类型。"
+msgstr "文档关联规则允许定义文档之间的关系。"
 
 #: views.py:224
 msgid "There are no smart links for this document"
-msgstr "此文档没有智能链接"
+msgstr "此文档没有关联的文档"
 
 #: views.py:227
 #, python-format
 msgid "Smart links for document: %s"
-msgstr "文档的智能链接：%s"
+msgstr "文档关联规则：%s"
 
 #: views.py:261
 #, python-format
 msgid "Delete smart link: %s"
-msgstr "删除智能链接：%s"
+msgstr "删除文档关联规则：%s"
 
 #: views.py:277
 #, python-format
 msgid "Edit smart link: %s"
-msgstr "编辑智能链接：%s"
+msgstr "编辑文档关联规则：%s"
 
 #: views.py:302
 msgid ""
 "Conditions are small logic units that when combined define how the smart "
 "link will behave."
-msgstr "条件是小逻辑单元，在组合时定义智能链接的行为方式。"
+msgstr "条件是小逻辑单元，在组合时定义关联文档规则的行为方式。"
 
 #: views.py:306
 msgid "There are no conditions for this smart link"
-msgstr "此智能链接没有条件"
+msgstr "此文档关联规则没有条件"
 
 #: views.py:310
 #, python-format
 msgid "Conditions for smart link: %s"
-msgstr "智能链接的条件：%s"
+msgstr "文档关联规则：%s"
 
 #: views.py:329
 #, python-format
 msgid "Add new conditions to smart link: \"%s\""
-msgstr "为智能链接添加新条件：“%s”"
+msgstr "为文档关联添加新规则：“%s”"
 
 #: views.py:359
 #, python-format
 msgid "Delete smart link condition: \"%s\"?"
-msgstr "删除智能链接条件：“%s”？"
+msgstr "删除文档关联规则：“%s”？"
 
 #: views.py:382
 msgid "Edit smart link condition"
-msgstr "编辑智能链接条件"
+msgstr "编辑文档关联规则"

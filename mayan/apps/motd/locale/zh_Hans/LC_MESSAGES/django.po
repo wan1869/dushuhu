@@ -21,7 +21,7 @@ msgstr ""
 
 #: apps.py:40 links.py:38 permissions.py:5
 msgid "Message of the day"
-msgstr "当天的消息"
+msgstr "专利声明"
 
 #: apps.py:77 apps.py:81
 msgid "None"
@@ -105,7 +105,7 @@ msgstr "查看消息"
 
 #: templates/motd/messages.html:8
 msgid "Messages of the day"
-msgstr "当天的消息"
+msgstr "专利声明"
 
 #: views.py:45
 #, python-format

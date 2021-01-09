@@ -6,7 +6,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import F, Max
 from django.utils.encoding import force_text
-from django.utils.timezone import now,datetime
+from django.utils.timezone import now
+
 
 from .settings import (
     setting_favorite_count, setting_recent_access_count,
@@ -51,9 +52,13 @@ class DocumentTypeManager(models.Manager):
         MetadataType = apps.get_model(
             app_label='metadata', model_name='MetadataType'
         )
-        user = apps.get_model(
-            app_label='auth', model_name='User'
+        # user = apps.get_model(
+        #     app_label='auth', model_name='User'
+        # )
+        Workflow = apps.get_model(
+            app_label='document_states', model_name='Workflow'
         )
+
         for document_type in self.all():
             logger.info(
                 'Checking deletion period of document type: %s', document_type
@@ -65,8 +70,8 @@ class DocumentTypeManager(models.Manager):
                 )
                 for document in document_type.documents.exclude(pk__isnull=True):
                     logger.info(
-                        'Document "%s" with id: %d, trashed on: %s, exceded '
-                        'delete period', document, document.pk
+                        'Document "%s" with id: %d, checked on: %s, effective '
+                        ' date', document, document.pk
                     )
                     try:
                         metadata_types = MetadataType.objects.get(name="effective_date")
@@ -79,31 +84,31 @@ class DocumentTypeManager(models.Manager):
                         continue
 
                     if  document_metadata.value == date.strftime(date.today(),'%Y-%m-%d') and len(document_metadata.value) > 0:
-                        documentCheckout = apps.get_model(
-                            app_label='checkouts', model_name='DocumentCheckout'
-                        )
-                        if documentCheckout.is_checked_out(document=document):
-                            pass
-                        else:
-                            admin = user.objects.get(pk=1)
-                            documentCheckout.objects.check_out_document(
-                                block_new_version=True,
-                                document=document,
-                                expiration_datetime=datetime.strptime('9999-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'),
-                                user=admin,
+                        #launch workflow for the new document to upload new version&copy metadata
+                        try:
+                            workflow = Workflow.objects.get(internal_name='new_version')
+                            workflow.launch_for(document=document)
+                        except Workflow.DoesNotExist:
+                            logger.error(
+                                'workflow can not be found: new_version'
                             )
+                            continue
+                        # documentCheckout = apps.get_model(
+                        #     app_label='checkouts', model_name='DocumentCheckout'
+                        # )
+                        # if documentCheckout.is_checked_out(document=document):
+                        #     pass
+                        # else:
+                        #     admin = user.objects.get(pk=1)
+                        #     documentCheckout.objects.check_out_document(
+                        #         block_new_version=True,
+                        #         document=document,
+                        #         expiration_datetime=datetime.strptime('9999-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'),
+                        #         user=admin,
+                        #     )
 
             else:
-                logger.info(
-                    'Document type: %s, has a no retention delta', document_type
-                )
                 for document in document_type.documents.exclude(pk__isnull=True):
-                    logger.info(
-                        'Document "%s" with id: %d, trashed on: %s, exceded '
-                        'delete period', document, document.pk
-                    )
-
-
                     try:
                         metadata_types = MetadataType.objects.get(name="effective_date")
                         document_metadata = DocumentMetadata.objects.get(
@@ -116,17 +121,26 @@ class DocumentTypeManager(models.Manager):
 
                     if document_metadata.value == date.strftime(date.today(), '%Y-%m-%d') and len(
                             document_metadata.value) > 0:
-                        Comment = apps.get_model(
-                            app_label='document_comments', model_name='Comment'
-                        )
-                        admin = user.objects.get(pk=1)
-                        comment = Comment(
-                            document=document,
-                            user=admin,
-                            comment="First version take effect",
-                            submit_date=now(),
-                        )
-                        comment.save()
+                        #launch workflow for the new document to approve
+                        try:
+                            workflow = Workflow.objects.get(internal_name='new_doc')
+                            workflow.launch_for(document=document)
+                        except Workflow.DoesNotExist:
+                            logger.error(
+                                'workflow can not be found: new_doc'
+                            )
+                            continue
+                        # Comment = apps.get_model(
+                        #     app_label='document_comments', model_name='Comment'
+                        # )
+                        # admin = user.objects.get(pk=1)
+                        # comment = Comment(
+                        #     document=document,
+                        #     user=admin,
+                        #     comment="First version take effect",
+                        #     submit_date=now(),
+                        # )
+                        # comment.save()
 
 
     def check_delete_periods(self):

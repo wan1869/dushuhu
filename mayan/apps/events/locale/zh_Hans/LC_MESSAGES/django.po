@@ -22,7 +22,7 @@ msgstr ""
 
 #: apps.py:27 links.py:30 links.py:35 links.py:40 permissions.py:5 views.py:34
 msgid "Events"
-msgstr "事件"
+msgstr "操作日志"
 
 #: apps.py:39 apps.py:67
 msgid "Date and time"
@@ -34,7 +34,7 @@ msgstr "操作者"
 
 #: apps.py:46 apps.py:75
 msgid "Event"
-msgstr "事件"
+msgstr "事件日志"
 
 #: apps.py:50 apps.py:80
 msgid "Target"
