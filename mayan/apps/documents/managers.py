@@ -52,9 +52,9 @@ class DocumentTypeManager(models.Manager):
         MetadataType = apps.get_model(
             app_label='metadata', model_name='MetadataType'
         )
-        # user = apps.get_model(
-        #     app_label='auth', model_name='User'
-        # )
+        user = apps.get_model(
+            app_label='auth', model_name='User'
+        )
         Workflow = apps.get_model(
             app_label='document_states', model_name='Workflow'
         )
@@ -86,7 +86,7 @@ class DocumentTypeManager(models.Manager):
                     if  document_metadata.value == date.strftime(date.today(),'%Y-%m-%d') and len(document_metadata.value) > 0:
                         #launch workflow for the new document to upload new version&copy metadata
                         try:
-                            workflow = Workflow.objects.get(internal_name='new_version')
+                            workflow = Workflow.objects.get(internal_name='new_version_effective')
                             workflow.launch_for(document=document)
                         except Workflow.DoesNotExist:
                             logger.error(
@@ -121,26 +121,18 @@ class DocumentTypeManager(models.Manager):
 
                     if document_metadata.value == date.strftime(date.today(), '%Y-%m-%d') and len(
                             document_metadata.value) > 0:
-                        #launch workflow for the new document to approve
-                        try:
-                            workflow = Workflow.objects.get(internal_name='new_doc')
-                            workflow.launch_for(document=document)
-                        except Workflow.DoesNotExist:
-                            logger.error(
-                                'workflow can not be found: new_doc'
-                            )
-                            continue
-                        # Comment = apps.get_model(
-                        #     app_label='document_comments', model_name='Comment'
-                        # )
-                        # admin = user.objects.get(pk=1)
-                        # comment = Comment(
-                        #     document=document,
-                        #     user=admin,
-                        #     comment="First version take effect",
-                        #     submit_date=now(),
-                        # )
-                        # comment.save()
+                        #comments trigger for the new document to take effect
+                        Comment = apps.get_model(
+                            app_label='document_comments', model_name='Comment'
+                        )
+                        admin = user.objects.get(pk=1)
+                        comment = Comment(
+                            document=document,
+                            user=admin,
+                            comment="New version take effect",
+                            submit_date=now(),
+                        )
+                        comment.save()
 
 
     def check_delete_periods(self):

@@ -25,6 +25,9 @@ msgstr ""
 msgid "Documents"
 msgstr "文档"
 
+msgid "New version take effect"
+msgstr "新版本发布生效"
+
 msgid "Documents Management"
 msgstr "文档管理"
 
