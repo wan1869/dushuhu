@@ -86,6 +86,19 @@ class DocumentTypeManager(models.Manager):
                     if  document_metadata.value == date.strftime(date.today(),'%Y-%m-%d') and len(document_metadata.value) > 0:
                         #launch workflow for the new document to upload new version&copy metadata
                         try:
+                            # comments trigger for the non-first new document to take effect
+                            Comment = apps.get_model(
+                                app_label='document_comments', model_name='Comment'
+                            )
+                            admin = user.objects.get(pk=1)
+                            comment = Comment(
+                                document=document,
+                                user=admin,
+                                comment="New version take effect",
+                                submit_date=now(),
+                            )
+                            comment.save()
+                            # comments trigger for the first new version to take effect
                             workflow = Workflow.objects.get(internal_name='new_version_effective')
                             workflow.launch_for(document=document)
                         except Workflow.DoesNotExist:
@@ -129,7 +142,7 @@ class DocumentTypeManager(models.Manager):
                         comment = Comment(
                             document=document,
                             user=admin,
-                            comment="New version take effect",
+                            comment="First version take effect",
                             submit_date=now(),
                         )
                         comment.save()

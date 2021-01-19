@@ -292,7 +292,7 @@ msgstr ""
 
 #: models/email_sources.py:54
 msgid "Metadata attachment name"
-msgstr "元数据附件名称"
+msgstr "文档关键信息附件名称"
 
 #: models/email_sources.py:58
 msgid ""
@@ -302,7 +302,7 @@ msgstr ""
 
 #: models/email_sources.py:62
 msgid "Subject metadata type"
-msgstr "主题元数据类型"
+msgstr "主题关键信息类型"
 
 #: models/email_sources.py:66
 msgid ""
@@ -312,7 +312,7 @@ msgstr ""
 
 #: models/email_sources.py:70
 msgid "From metadata type"
-msgstr "发件人元数据类型"
+msgstr "发件人关键信息类型"
 
 #: models/email_sources.py:74
 msgid "Store the body of the email as a text document."
@@ -335,14 +335,14 @@ msgstr "电邮来源"
 msgid ""
 "Subject metadata type \"%(metadata_type)s\" is not valid for the document "
 "type: %(document_type)s"
-msgstr "主题元数据类型“%(metadata_type)s”对于文档类型%(document_type)s无效"
+msgstr "主题关键信息类型“%(metadata_type)s”对于文档类型%(document_type)s无效"
 
 #: models/email_sources.py:201
 #, python-format
 msgid ""
 "\"From\" metadata type \"%(metadata_type)s\" is not valid for the document "
 "type: %(document_type)s"
-msgstr "“发件人”元数据类型“%(metadata_type)s”对于文档类型%(document_type)s无效"
+msgstr "“发件人”关键信息类型“%(metadata_type)s”对于文档类型%(document_type)s无效"
 
 #: models/email_sources.py:216
 msgid "IMAP Mailbox from which to check for messages."

@@ -177,7 +177,7 @@ msgstr "第一项忽略此包含。"
 
 #: models.py:175
 msgid "This represents the metadata of all other documents."
-msgstr "这表示所有其他文档的元数据。"
+msgstr "这表示所有其他文档的关键信息。"
 
 #: models.py:176
 msgid "Foreign document attribute"
