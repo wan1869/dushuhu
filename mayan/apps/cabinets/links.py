@@ -21,6 +21,8 @@ link_document_cabinet_list = Link(
     permissions=(permission_document_view,),
     text=_('Cabinets'), view='cabinets:document_cabinet_list',
 )
+
+
 link_document_cabinet_remove = Link(
     args='resolved_object.pk',
     icon_class_path='mayan.apps.cabinets.icons.icon_document_cabinet_remove',
@@ -90,3 +92,12 @@ link_cabinet_view = Link(
     permissions=(permission_cabinet_view,), text=_('Details'),
     view='cabinets:cabinet_view'
 )
+#客户化代码 在文档管理中显示文档中心联接
+link_cabinet_list4doc = Link(
+    condition=get_cascade_condition(
+        app_label='cabinets', model_name='Cabinet',
+        object_permission=permission_cabinet_view,
+    ), icon_class_path='mayan.apps.cabinets.icons.icon_cabinet_list',
+    text=_('All'), view='cabinets:cabinet_list4doc'
+)
+

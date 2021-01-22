@@ -57,7 +57,7 @@ from .links.document_links import (
     link_document_multiple_document_type_edit,
     link_document_multiple_download, link_document_preview,
     link_document_print, link_document_properties,
-    link_document_quick_download
+    link_document_quick_download,link_cabinet_list,
 )
 from .links.document_version_links import (
     link_document_version_download, link_document_version_list,
@@ -453,6 +453,7 @@ class DocumentsApp(MayanAppConfig):
                 link_document_list_recent_added, link_document_list_favorites,
                 link_document_list, link_document_list_deleted,
                 link_duplicated_document_list,
+                link_cabinet_list,
             )
         )
 

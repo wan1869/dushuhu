@@ -7,13 +7,18 @@ from .api_views import (
 from .views import (
     DocumentAddToCabinetView, DocumentCabinetListView,
     DocumentRemoveFromCabinetView, CabinetChildAddView, CabinetCreateView,
-    CabinetDeleteView, CabinetDetailView, CabinetEditView, CabinetListView,
+    CabinetDeleteView, CabinetDetailView, CabinetEditView, CabinetListView,CabinetListView4doc,
 )
 
 urlpatterns_cabinets = [
     url(
         regex=r'^cabinets/$', name='cabinet_list',
         view=CabinetListView.as_view()
+    ),
+    # 客户化代码，在文档管理中增加文档中心链接
+    url(
+        regex=r'^cabinets4doc/$', name='cabinet_list4doc',
+        view=CabinetListView4doc.as_view()
     ),
     url(
         regex=r'^cabinets/create/$', name='cabinet_create',

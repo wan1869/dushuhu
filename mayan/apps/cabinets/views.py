@@ -179,6 +179,32 @@ class CabinetListView(SingleObjectListView):
         # is not affected by the model's order Meta option.
         return Cabinet.objects.root_nodes().order_by('label')
 
+#客户化代码 文档管理中的文档中心链接用
+class CabinetListView4doc(SingleObjectListView):
+    object_permission = permission_cabinet_view
+
+    def get_extra_context(self):
+        return {
+            'hide_link': True,
+            'hide_object': True,
+            'title': _('Cabinets'),
+            'no_results_icon': icon_cabinet,
+            'no_results_main_link': link_cabinet_create.resolve(
+                context=RequestContext(request=self.request)
+            ),
+            'no_results_text': _(
+                'Cabinets are a multi-level method to organize '
+                'documents. Each cabinet can contain documents as '
+                'well as other sub level cabinets.'
+            ),
+            'no_results_title': _('No cabinets available'),
+        }
+
+    def get_source_queryset(self):
+        # Add explicit ordering of root nodes since the queryset returned
+        # is not affected by the model's order Meta option.
+        return Cabinet.objects.root_nodes().order_by('label').filter(label='文档中心')
+
 
 class DocumentCabinetListView(ExternalObjectMixin, CabinetListView):
     external_object_class = Document

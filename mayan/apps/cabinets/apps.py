@@ -27,7 +27,7 @@ from .links import (
     link_document_multiple_cabinet_add, link_cabinet_child_add,
     link_cabinet_create, link_cabinet_delete, link_cabinet_edit,
     link_cabinet_view, link_custom_acl_list,
-    link_multiple_document_cabinet_remove
+    link_multiple_document_cabinet_remove,link_cabinet_list4doc,
 )
 from .menus import menu_cabinets
 from .methods import method_document_get_cabinets
@@ -162,7 +162,7 @@ class CabinetsApp(MayanAppConfig):
 
         menu_cabinets.bind_links(
             links=(
-                link_cabinet_list, link_cabinet_create
+                link_cabinet_list, link_cabinet_create,
             )
         )
         menu_list_facet.bind_links(

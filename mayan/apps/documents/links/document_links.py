@@ -99,3 +99,9 @@ link_document_quick_download = Link(
     permissions=(permission_document_download,), text=_('Quick download'),
     view='documents:document_download',
 )
+# 客户化代码 增加文档中心链接
+link_cabinet_list = Link(
+    icon_class_path='mayan.apps.documents.icons.icon_document_list',
+    text=_('Cabnet List'),
+    view='cabinets:cabinet_list4doc'
+)

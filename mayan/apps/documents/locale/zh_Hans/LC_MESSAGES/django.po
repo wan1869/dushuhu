@@ -1506,3 +1506,8 @@ msgstr "移至垃圾箱"
 #: workflow_actions.py:7
 msgid "Upload as new version"
 msgstr "上传为新版本"
+
+#: document_links.py:104
+msgid "Cabnet List"
+msgstr "文档中心"
+
