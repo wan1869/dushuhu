@@ -67,6 +67,14 @@ link_document_version_create_multiple = Link(
     view='sources:document_version_create_multiple'
 )
 
+#客户化代码 文档修改申请菜单的链接
+link_document_modify_apply = Link(
+    condition=condition_document_creation_access,
+    icon_class_path='mayan.apps.sources.icons.icon_document_create_multiple',
+    text=_('Document modify application'),
+    view='sources:document_modify_application'
+)
+
 link_setup_sources = Link(
     icon_class_path='mayan.apps.sources.icons.icon_setup_sources',
     permissions=(permission_sources_setup_view,), text=_('Sources'),

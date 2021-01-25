@@ -29,7 +29,7 @@ from .links import (
     link_setup_source_create_watch_folder, link_setup_source_create_webform,
     link_setup_source_create_staging_folder, link_setup_source_delete,
     link_setup_source_edit, link_staging_file_delete,
-    link_document_version_upload
+    link_document_version_upload,link_document_modify_apply
 )
 from .widgets import StagingFileThumbnailWidget
 
@@ -105,8 +105,8 @@ class SourcesApp(MayanAppConfig):
                 instance=context['object'],
             )
         )
-        # 客户化代码 主菜单新增"新增版本"链接
-        menu_documents.bind_links(links=(link_document_create_multiple,link_document_version_create_multiple))
+        # 客户化代码 主菜单新增"新增版本"链接 新增"文档修改申请"链接
+        menu_documents.bind_links(links=(link_document_create_multiple,link_document_version_create_multiple,link_document_modify_apply))
 
 
         menu_list_facet.bind_links(

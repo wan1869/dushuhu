@@ -33,7 +33,7 @@ msgid ""
 "Document sources are the way in which new documents are feed to Mayan EDMS, "
 "create at least a web form source to be able to upload documents from a "
 "browser."
-msgstr "文档源是将新文档提供给Mayan EDMS的方式，至少创建一个网页表单源以便能够从浏览器上传文档。"
+msgstr "文档源是将新文档提供给本系统的方式，至少创建一个网页表单源以便能够从浏览器上传文档。"
 
 #: apps.py:86
 msgid "Type"
@@ -67,7 +67,7 @@ msgstr "展开压缩文件"
 
 #: forms.py:42 serializers.py:22
 msgid "Upload a compressed file's contained files as individual documents."
-msgstr ""
+msgstr "将当个文件压缩上传"
 
 #: forms.py:63 views.py:205
 msgid "Staging file"
@@ -769,3 +769,7 @@ msgstr "下一步"
 #: wizards.py:183
 msgid "Document upload wizard"
 msgstr "文档上传向导"
+
+#: links.py:58
+msgid "Document modify application"
+msgstr "文档修改申请"

@@ -8,11 +8,14 @@ from .api_views import (
 from .views import (
     SourceCheckView, SourceCreateView, SourceDeleteView,
     SourceEditView, SourceListView, StagingFileDeleteView,
-    DocumentVersionUploadInteractiveView, UploadInteractiveView,UploadNewVersionInteractiveView
+    DocumentVersionUploadInteractiveView, UploadInteractiveView,UploadNewVersionInteractiveView,UploadModifyApplicationInteractiveView
 )
 from .wizards import DocumentCreateWizard
 # 客户化代码 新增版本菜单的wizard视图
 from .customwizards import DocumentVersionCreateWizard
+
+# 客户化代码 文档修改菜单的wizard视图
+from .customwizards import DocumentModifyApplicationWizard
 
 urlpatterns = [
     url(
@@ -31,6 +34,11 @@ urlpatterns = [
         regex=r'^documents/version/create/from/local/multiple/$',
         name='document_version_create_multiple', view=DocumentVersionCreateWizard.as_view()
     ),
+    # 客户化代码 菜单"文档修改申请"链接
+    url(
+        regex=r'^documents/modify/from/local/multiple/$',
+        name='document_modify_application', view=DocumentModifyApplicationWizard.as_view()
+    ),
     url(
         regex=r'^documents/upload/new/interactive/(?P<source_id>\d+)/$',
         name='document_upload_interactive',
@@ -47,6 +55,12 @@ urlpatterns = [
         name='document_upload_new_version',
         view=UploadNewVersionInteractiveView.as_view()
     ),
+    # 客户化代码 跳转文档修改申请视图
+    url(
+        regex=r'^documents/upload/modify/application/interactive/$',
+        name='document_upload_modify_application',
+        view=UploadModifyApplicationInteractiveView.as_view()
+    ),
     url(
         regex=r'^documents/(?P<document_id>\d+)/versions/upload/interactive/(?P<source_id>\d+)/$',
         name='document_version_upload',
@@ -57,10 +71,17 @@ urlpatterns = [
         name='document_version_upload',
         view=DocumentVersionUploadInteractiveView.as_view()
     ),
+    #客户化方法
     url(
         regex=r'^documents/upload/new/interactive/(?P<versioned_document_id>\d+)/$',
         name='document_upload_new_version_document',
         view=UploadNewVersionInteractiveView.as_view()
+    ),
+    #客户化方法
+    url(
+        regex=r'^documents/upload/modify/interactive/(?P<versioned_document_id>\d+)/$',
+        name='document_upload_modify_document',
+        view=UploadModifyApplicationInteractiveView.as_view()
     ),
 
     # Setup views

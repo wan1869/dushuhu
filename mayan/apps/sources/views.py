@@ -232,6 +232,14 @@ class UploadBaseView(MultiFormView):
             for source in InteractiveSource.objects.filter(enabled=True).select_subclasses()
         ]
 
+    # 客户化方法 文档修改申请流程
+    @staticmethod
+    def get_active_tab_links_modify(versioned_document_id=None):
+        return [
+            UploadBaseView.get_tab_link_for_modify(source, versioned_document_id)
+            for source in InteractiveSource.objects.filter(enabled=True).select_subclasses()
+        ]
+
     @staticmethod
     def get_tab_link_for_source(source, document=None):
         if document:
@@ -254,6 +262,22 @@ class UploadBaseView(MultiFormView):
     def get_tab_link_for_version(source,versioned_document_id):
 
         view = 'sources:document_upload_new_version_document'
+        args = ('"{}"'.format(versioned_document_id),)
+
+        return Link(
+            args=args,
+            conditional_active=factory_conditional_active_by_source(
+                source=source
+            ), icon_class=icon_upload_view_link, keep_query=True,
+            remove_from_query=['page'], text=source.label, view=view
+        )
+
+
+    # 客户化方法，修改申请表
+    @staticmethod
+    def get_tab_link_for_modify(source,versioned_document_id):
+
+        view = 'sources:document_upload_modify_document'
         args = ('"{}"'.format(versioned_document_id),)
 
         return Link(
@@ -898,5 +922,196 @@ class UploadNewVersionInteractiveView(UploadBaseView):
             'source_form': source_form_class
         }
 
+# 客户化代码,上传修改文档申请
+class UploadModifyApplicationInteractiveView(UploadBaseView):
+    def create_source_form_form(self, **kwargs):
+        if hasattr(self.source, 'uncompress'):
+            show_expand = self.source.uncompress == SOURCE_UNCOMPRESS_CHOICE_ASK
+        else:
+            show_expand = False
+
+        return self.get_form_classes()['source_form'](
+            prefix=kwargs['prefix'],
+            source=self.source,
+            show_expand=show_expand,
+            data=kwargs.get('data', None),
+            files=kwargs.get('files', None),
+        )
+
+    def create_document_form_form(self, **kwargs):
+        return self.get_form_classes()['document_form'](
+            prefix=kwargs['prefix'],
+            document_type=self.document_type,
+            data=kwargs.get('data', None),
+            files=kwargs.get('files', None),
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        self.subtemplates_list = []
+
+        versioned_document_id = self.request.GET.get(
+                 'versioned_document_id', self.request.POST.get('versioned_document_id')
+            )
+
+        # 客户化代码，文档类型默认是default
+        self.document_type = get_object_or_404(
+            klass=DocumentType, label='文档修改申请表'
+        )
+
+        AccessControlList.objects.check_access(
+            obj=self.document_type, permissions=(permission_document_create,),
+            user=request.user
+        )
+
+        self.tab_links = UploadBaseView.get_active_tab_links_modify(versioned_document_id)
+
+        try:
+            return super(
+                UploadModifyApplicationInteractiveView, self
+            ).dispatch(request, *args, **kwargs)
+        except Exception as exception:
+            if request.is_ajax():
+                return JsonResponse(
+                    data={'error': force_text(s=exception)}, status=500
+                )
+            else:
+                raise
+
+    def forms_valid(self, forms):
+        if self.source.can_compress:
+            if self.source.uncompress == SOURCE_UNCOMPRESS_CHOICE_ASK:
+                expand = forms['source_form'].cleaned_data.get('expand')
+            else:
+                if self.source.uncompress == SOURCE_UNCOMPRESS_CHOICE_Y:
+                    expand = True
+                else:
+                    expand = False
+        else:
+            expand = False
+
+        try:
+            uploaded_file = self.source.get_upload_file_object(
+                forms['source_form'].cleaned_data
+            )
+        except SourceException as exception:
+            messages.error(message=exception, request=self.request)
+        else:
+            shared_uploaded_file = SharedUploadedFile.objects.create(
+                file=uploaded_file.file
+            )
+
+            if not self.request.user.is_anonymous:
+                user = self.request.user
+                user_id = self.request.user.pk
+            else:
+                user = None
+                user_id = None
+
+            try:
+                self.source.clean_up_upload_file(uploaded_file)
+            except Exception as exception:
+                messages.error(message=exception, request=self.request)
+
+            querystring = self.request.GET.copy()
+            querystring.update(self.request.POST)
+            document_id = querystring["versioned_document_id"]
+
+
+            try:
+                # 得到该文档的UUID
+                document_uuid = Document.objects.get(pk=document_id).uuid
+                Document.execute_pre_create_hooks(
+                    kwargs={
+                        'document_type': self.document_type,
+                        'user': user
+                    }
+                )
+
+                DocumentVersion.execute_pre_create_hooks(
+                    kwargs={
+                        'document_type': self.document_type,
+                        'shared_uploaded_file': shared_uploaded_file,
+                        'user': user
+                    }
+                )
+                #将UUID传入文档的描述
+                task_source_handle_upload.apply_async(
+                    kwargs=dict(
+                        # description=forms['document_form'].cleaned_data.get('description'),
+                        description=document_uuid,
+                        document_type_id=self.document_type.pk,
+                        expand=expand,
+                        label=forms['document_form'].get_final_label(
+                            filename=force_text(s=shared_uploaded_file)
+                        ),
+                        language=forms['document_form'].cleaned_data.get('language'),
+                        querystring=querystring.urlencode(),
+                        shared_uploaded_file_id=shared_uploaded_file.pk,
+                        source_id=self.source.pk,
+                        user_id=user_id,
+                    )
+                )
+            except Exception as exception:
+                message = _(
+                    'Error executing document upload task; '
+                    '%(exception)s'
+                ) % {
+                    'exception': exception,
+                }
+                logger.critical(msg=message, exc_info=True)
+                raise type(exception)(message)
+            else:
+                messages.success(
+                    message=_(
+                        'New document queued for upload and will be available '
+                        'shortly.'
+                    ), request=self.request
+                )
+
+        return HttpResponseRedirect(
+            redirect_to='{}?{}'.format(
+                reverse(
+                    viewname=self.request.resolver_match.view_name,
+                    kwargs=self.request.resolver_match.kwargs
+                ), self.request.META['QUERY_STRING']
+            ),
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadModifyApplicationInteractiveView, self).get_context_data(**kwargs)
+        context['title'] = _(
+            'Upload a document of type "%(document_type)s" from '
+            'source: %(source)s'
+        ) % {'document_type': self.document_type, 'source': self.source.label}
+
+        if not isinstance(self.source, StagingFolderSource) and not isinstance(self.source, SaneScanner):
+            context['subtemplates_list'][0]['context'].update(
+                {
+                    'form_action': '{}?{}'.format(
+                        reverse(
+                            viewname=self.request.resolver_match.view_name,
+                            kwargs=self.request.resolver_match.kwargs
+                        ), self.request.META['QUERY_STRING']
+                    ),
+                    'form_css_classes': 'dropzone',
+                    'form_disable_submit': True,
+                    'form_id': 'html5upload',
+                }
+            )
+        return context
+
+    def get_form_classes(self):
+        source_form_class = get_upload_form_class(
+            source_type_name=self.source.source_type
+        )
+
+        # Override source form class to enable the HTML5 file uploader
+        if source_form_class == WebFormUploadForm:
+            source_form_class = WebFormUploadFormHTML5
+
+        return {
+            'document_form': NewDocumentForm,
+            'source_form': source_form_class
+        }
 
 
