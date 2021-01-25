@@ -8,6 +8,10 @@ from django.db.models import F, Max
 from django.utils.encoding import force_text
 from django.utils.timezone import now
 
+from mayan.apps.converter.models import ObjectLayer
+from mayan.apps.converter.transformations import BaseTransformation
+from mayan.apps.documents.utils import parse_range
+
 
 from .settings import (
     setting_favorite_count, setting_recent_access_count,
@@ -147,6 +151,53 @@ class DocumentTypeManager(models.Manager):
                         )
                         comment.save()
 
+    # 客户化代码 每天检查文档废止时间：celery异步任务
+    def check_expired_doc(self):
+        logger.warning(
+            msg='==========================================Executing to check expired date==========================================')
+
+        DocumentMetadata = apps.get_model(
+            app_label='metadata', model_name='DocumentMetadata'
+        )
+        MetadataType = apps.get_model(
+            app_label='metadata', model_name='MetadataType'
+        )
+
+        for document_type in self.all():
+            logger.info(
+                'Checking deletion period of document type: %s', document_type
+            )
+            for document in document_type.documents.exclude(pk__isnull=True):
+                logger.info(
+                    'Document "%s" with id: %d, checked on: %s, expired '
+                    ' date', document, document.pk
+                )
+                try:
+                    metadata_types = MetadataType.objects.get(name="expired_date")
+                    document_metadata = DocumentMetadata.objects.get(
+                        document=document, metadata_type=metadata_types
+                    )
+                except MetadataType.DoesNotExist:
+                    continue
+                except DocumentMetadata.DoesNotExist:
+                    continue
+
+                if len(document_metadata.value) > 0 and document_metadata.value == date.strftime(date.today(), '%Y-%m-%d'):
+                    #给已到废止时间的文档打报废标签
+                    pages = '1' + '-' + str(document.page_count)
+                    page_range = parse_range(astr=pages)
+                    queryset = document.pages.filter(page_number__in=page_range)
+                    transformation_class = BaseTransformation.get(name='paste_asset_watermark')
+                    layer = transformation_class.get_assigned_layer()
+
+                    for document_page in queryset.all():
+                        object_layer, created = ObjectLayer.objects.get_for(
+                            obj=document_page, layer=layer
+                        )
+                        object_layer.transformations.create(
+                            name=transformation_class.name,
+                            arguments='{ "rotation":-30, "transparency":20, "asset_name":"expired"}'
+                        )
 
     def check_delete_periods(self):
         logger.info(msg='Executing')

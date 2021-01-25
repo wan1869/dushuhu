@@ -6,6 +6,8 @@ from mayan.apps.common.queues import queue_tools
 from mayan.apps.task_manager.classes import CeleryQueue
 from mayan.apps.task_manager.workers import worker_fast, worker_medium
 
+from celery.schedules import crontab
+
 from .literals import (
     CHECK_DELETE_PERIOD_INTERVAL, CHECK_TRASH_PERIOD_INTERVAL,
     DELETE_STALE_STUBS_INTERVAL,DEFAULT_STUB_EXPIRATION_INTERVAL
@@ -57,6 +59,14 @@ queue_documents_periodic.add_task_type(
     schedule=timedelta(
         seconds=DEFAULT_STUB_EXPIRATION_INTERVAL
     ),
+)
+
+#客户化代码 每天按照废止时间检查文档报废：DEFAULT_STUB_EXPIRATION_INTERVAL
+queue_documents_periodic.add_task_type(
+    dotted_path='mayan.apps.documents.tasks.task_check_expired_doc',
+    label=_('check the expired date daily'),
+    name='task_check_expired_doc',
+    schedule=crontab(minute=10, hour=1),
 )
 
 

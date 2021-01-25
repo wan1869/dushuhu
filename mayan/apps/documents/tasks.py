@@ -50,6 +50,16 @@ def task_check_effective_doc():
     DocumentType.objects.check_effective_doc()
 
 
+#客户化 每天检查文档废止时间
+@app.task(ignore_result=True)
+def task_check_expired_doc():
+    DocumentType = apps.get_model(
+        app_label='documents', model_name='DocumentType'
+    )
+
+    DocumentType.objects.check_expired_doc()
+
+
 
 @app.task(ignore_result=True)
 def task_delete_document(trashed_document_id):
