@@ -17,7 +17,8 @@ from .settings import (
     setting_link_body_template, setting_link_subject_template
 )
 from .validators import validate_email_multiple
-
+#客户化代码 选择用户
+from django.contrib.auth import get_user_model
 
 class DocumentMailForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -43,7 +44,7 @@ class DocumentMailForm(forms.Form):
                 'project_title': setting_project_title.value,
                 'project_website': setting_project_url.value
             }
-
+        #
         queryset = AccessControlList.objects.restrict_queryset(
             permission=permission_user_mailer_use, user=user,
             queryset=UserMailer.objects.filter(enabled=True)
@@ -55,12 +56,26 @@ class DocumentMailForm(forms.Form):
         except UserMailer.DoesNotExist:
             pass
 
-    email = forms.CharField(
+    # email = forms.CharField(
+    #     help_text=_(
+    #         'Email address of the recipient. Can be multiple addresses '
+    #         'separated by comma or semicolon.'
+    #     ), label=_('Email address'), validators=[validate_email_multiple]
+    # )
+
+    #客户化代码 选择用户发送
+    User = get_user_model()
+    email = forms.fields.MultipleChoiceField(
+        choices=User.objects.filter(is_active=True).values_list('email','username'),  # 多选下拉框
+        # initial=['3451@143.com', '3452@143.com'],
         help_text=_(
             'Email address of the recipient. Can be multiple addresses '
             'separated by comma or semicolon.'
-        ), label=_('Email address'), validators=[validate_email_multiple]
+        ), label=_('Email address')
+        # , validators=[validate_email_multiple]
     )
+
+    #
     subject = forms.CharField(label=_('Subject'), required=False)
     body = forms.CharField(
         label=_('Body'), widget=forms.widgets.Textarea(), required=False
@@ -121,3 +136,5 @@ class UserMailerTestForm(forms.Form):
             'separated by comma or semicolon.'
         ), label=_('Email address'), validators=[validate_email_multiple]
     )
+
+

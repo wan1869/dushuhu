@@ -194,11 +194,61 @@ class UserMailer(models.Model):
                     }
                 )
 
-        return self.send(
+        # 客户化代码 使用多选框发送
+        return self.send_userlist(
             attachments=attachments, body=body_html_content,
             subject=subject_text, to=to, _event_action_object=document,
             _user=_user
         )
+
+        # return self.send(
+        #     attachments=attachments, body=body_html_content,
+        #     subject=subject_text, to=to, _event_action_object=document,
+        #     _user=_user
+        # )
+
+    # 客户化代码 使用用户多选框发送
+    def send_userlist(self, to, subject='', body='', attachments=None, _event_action_object=None, _user=None):
+        """
+        Send a simple email. There is no document or template knowledge.
+        attachments is a list of dictionaries with the keys:
+        filename, content, and  mimetype.
+        """
+        recipient_list = to
+        backend_data = self.loads()
+
+        with self.get_connection() as connection:
+            email_message = mail.EmailMultiAlternatives(
+                body=strip_tags(body), connection=connection,
+                from_email=backend_data.get('from'), subject=subject,
+                to=recipient_list,
+            )
+
+            for attachment in attachments or []:
+                email_message.attach(
+                    filename=attachment['filename'],
+                    content=attachment['content'],
+                    mimetype=attachment['mimetype']
+                )
+
+            email_message.attach_alternative(body, 'text/html')
+
+        with transaction.atomic():
+            try:
+                email_message.send()
+            except Exception as exception:
+                self.error_log.create(
+                    text='{}; {}'.format(
+                        exception.__class__.__name__, exception
+                    )
+                )
+            else:
+                self.error_log.all().delete()
+                event_email_sent.commit(
+                    actor=_user, action_object=_event_action_object,
+                    target=self
+                )
+
 
     def test(self, to):
         """
