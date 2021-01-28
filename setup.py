@@ -104,6 +104,7 @@ requests==2.23.0
 sh==1.13.1
 swagger-spec-validator==2.5.0
 whitenoise==5.0.1
+xlwt==1.3.0
 """.split()
 
 with open(file='README.rst') as file_object:
