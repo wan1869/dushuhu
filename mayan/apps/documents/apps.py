@@ -58,6 +58,7 @@ from .links.document_links import (
     link_document_multiple_download, link_document_preview,
     link_document_print, link_document_properties,
     link_document_quick_download,link_cabinet_list,
+    link_document_statistics_download,
 )
 from .links.document_version_links import (
     link_document_version_download, link_document_version_list,
@@ -561,6 +562,7 @@ class DocumentsApp(MayanAppConfig):
                 link_document_multiple_trash, link_document_multiple_download,
                 link_document_multiple_update_page_count,
                 link_document_multiple_document_type_edit,
+                link_document_statistics_download,
             ), sources=(Document,)
         )
 

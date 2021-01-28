@@ -1,6 +1,9 @@
 import logging
 
 from furl import furl
+from xlwt import *
+from io import BytesIO
+from django.http import StreamingHttpResponse
 
 from django.conf import settings
 from django.contrib import messages
@@ -10,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _, ungettext
+from django.template import RequestContext
 
 from mayan.apps.acls.models import AccessControlList
 from mayan.apps.common.classes import ModelQueryFields
@@ -34,8 +38,11 @@ from ..icons import (
     icon_document_download, icon_document_list,
     icon_document_list_recent_access, icon_recent_added_document_list
 )
-from ..literals import PAGE_RANGE_RANGE, DEFAULT_ZIP_FILENAME
-from ..models import Document, RecentDocument
+from ..links.document_links import (
+    link_document_multiple_download, link_document_list
+)
+from ..literals import PAGE_RANGE_RANGE, DEFAULT_ZIP_FILENAME, DEFAULT_DOCUMENT_STATISTICS_FILENAME
+from ..models import Document, RecentDocument, DocumentType
 from ..permissions import (
     permission_document_download, permission_document_print,
     permission_document_properties_edit, permission_document_tools,
@@ -46,6 +53,7 @@ from ..settings import (
 )
 from ..tasks import task_update_page_count
 from ..utils import parse_range
+from mayan.apps.metadata.models import (DocumentMetadata, MetadataType)
 
 __all__ = (
     'DocumentListView', 'DocumentDocumentTypeEditView', 'DocumentPropertiesEditView',
@@ -76,7 +84,7 @@ class DocumentListView(SingleObjectListView):
             return super(DocumentListView, self).get_context_data(**kwargs)
 
     def get_document_queryset(self):
-        return Document.objects.all()
+        return Document.objects.filter(in_trash=False)
 
     def get_extra_context(self):
         return {
@@ -275,6 +283,90 @@ class DocumentDownloadView(MultipleObjectDownloadView):
 
     def get_item_filename(self, item):
         return item.label
+
+
+# 客户化 文档统计下载
+class DocumentStatisticsDownloadView(MultipleObjectDownloadView):
+    model = Document
+    object_permission = permission_document_download
+    pk_url_kwarg = 'document_id'
+
+    @staticmethod
+    def commit_event(item, request):
+        if isinstance(item, Document):
+            event_document_download.commit(
+                actor=request.user,
+                target=item
+            )
+        else:
+            event_document_download.commit(
+                actor=request.user,
+                target=item.document
+            )
+
+    # 获取关键信息数据
+    def get_metadata_value(self, metadata, document_id):
+        document_metadata = DocumentMetadata.objects.filter(metadata_type__name=metadata, document_id=document_id)
+        if document_metadata:
+            metadata_value = document_metadata[0].value
+        else:
+            metadata_value = ''
+        return metadata_value
+
+    def get_download_file_object(self):
+        queryset = self.get_object_list()
+        filename = self.get_download_filename()  # 获取文件名称
+        document_tatistics = Workbook(encoding='utf-8')  # 设置Excel为UTF-8的编码格式
+        table = document_tatistics.add_sheet(u"文档详细信息")  # 设置sheet名称
+        # 设置标题
+        table.write(0, 0, u"文档名称")
+        table.write(0, 1, u"文档类型")
+        table.write(0, 2, u"编制人")
+        table.write(0, 3, u"审核人")
+        table.write(0, 4, u"批准人")
+        table.write(0, 5, u"发布日期")
+        table.write(0, 6, u"生效日期")
+        table.write(0, 7, u"废止日期")
+
+        excel_row = 1
+
+        for item in queryset:
+            document_type = DocumentType.objects.filter(pk=item.document_type_id)
+            creator = self.get_metadata_value(metadata="creator", document_id=item.pk)
+            reviewer = self.get_metadata_value(metadata="reviewer", document_id=item.pk)
+            approver = self.get_metadata_value(metadata="approver", document_id=item.pk)
+            publish_date = self.get_metadata_value(metadata="publish_date", document_id=item.pk)
+            effective_date = self.get_metadata_value(metadata="effective_date", document_id=item.pk)
+            expired_date = self.get_metadata_value(metadata="expired_date", document_id=item.pk)
+
+            # 写入每一行对应的数据
+            table.write(excel_row, 0, item.label)
+            table.write(excel_row, 1, document_type[0].label)
+            table.write(excel_row, 2, creator)
+            table.write(excel_row, 3, reviewer)
+            table.write(excel_row, 4, approver)
+            table.write(excel_row, 5, publish_date)
+            table.write(excel_row, 6, effective_date)
+            table.write(excel_row, 7, expired_date)
+            excel_row += 1
+
+            DocumentDownloadView.commit_event(
+                item=item, request=self.request
+            )
+
+        # 写出到IO
+        output = BytesIO()
+        document_tatistics.save(output)
+        output.seek(0)   # 重新定位到开始
+        response = StreamingHttpResponse(output)
+        response['content_type'] = 'application/vnd.ms-excel'    # 设置文件格式为Excel
+        response['charset'] = 'utf-8'
+        response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
+
+        return response
+
+    def get_download_filename(self):
+        return DEFAULT_DOCUMENT_STATISTICS_FILENAME + '.xlsx'
 
 
 class DocumentPreviewView(SingleObjectDetailView):

@@ -36,7 +36,7 @@ from .views.document_views import (
     DocumentPrint, DocumentPropertiesEditView,
     DocumentTransformationsClearView, DocumentTransformationsCloneView,
     DocumentUpdatePageCountView, DocumentView, RecentAccessDocumentListView,
-    RecentAddedDocumentListView
+    RecentAddedDocumentListView, DocumentStatisticsDownloadView
 )
 from .views.duplicated_document_views import (
     DocumentDuplicatesListView, DuplicatedDocumentListView,
@@ -168,6 +168,12 @@ urlpatterns_documents = [
         regex=r'^documents/multiple/download/form/$',
         name='document_multiple_download_form',
         view=DocumentDownloadFormView.as_view()
+    ),
+    # 客户化 文档统计
+    url(
+        regex=r'^documents/statistics/download/$',
+        name='document_statistics_download',
+        view=DocumentStatisticsDownloadView.as_view()
     ),
     url(
         regex=r'^documents/multiple/download/$',

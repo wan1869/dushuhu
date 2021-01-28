@@ -75,6 +75,12 @@ link_document_multiple_download = Link(
     text=_('Advanced download'),
     view='documents:document_multiple_download_form'
 )
+# 客户化 文档统计
+link_document_statistics_download = Link(
+    icon_class_path='mayan.apps.documents.icons.icon_document_download',
+    text=_('Export download statistics'),
+    view='documents:document_statistics_download'
+)
 link_document_preview = Link(
     args='resolved_object.id',
     icon_class_path='mayan.apps.documents.icons.icon_document_preview',
