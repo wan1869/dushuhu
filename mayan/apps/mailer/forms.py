@@ -55,7 +55,10 @@ class DocumentMailForm(forms.Form):
             self.fields['user_mailer'].initial = queryset.get(default=True)
         except UserMailer.DoesNotExist:
             pass
-
+        #客户化代码 初始化收件人
+        User = get_user_model()
+        self.fields['email'].choices = User.objects.filter(is_active=True).values_list('email','username')
+        self.fields['email'].initial = [1]
     # email = forms.CharField(
     #     help_text=_(
     #         'Email address of the recipient. Can be multiple addresses '
@@ -64,15 +67,11 @@ class DocumentMailForm(forms.Form):
     # )
 
     #客户化代码 选择用户发送
-    User = get_user_model()
     email = forms.fields.MultipleChoiceField(
-        choices=User.objects.filter(is_active=True).values_list('email','username'),  # 多选下拉框
-        # initial=['3451@143.com', '3452@143.com'],
         help_text=_(
             'Email address of the recipient. Can be multiple addresses '
             'separated by comma or semicolon.'
         ), label=_('Email address')
-        # , validators=[validate_email_multiple]
     )
 
     #
@@ -82,8 +81,9 @@ class DocumentMailForm(forms.Form):
     )
     user_mailer = forms.ModelChoiceField(
         help_text=_(
-            'The email profile that will be used to send this email.'
-        ), label=_('Mailing profile'), queryset=UserMailer.objects.none()
+            'Email address of the recipient. Can be multiple addresses '
+             'separated by comma or semicolon.'
+        ), label=_('Email address'), queryset=UserMailer.objects.none(),
     )
 
 
