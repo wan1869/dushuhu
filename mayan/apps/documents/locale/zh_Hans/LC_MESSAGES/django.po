@@ -301,6 +301,9 @@ msgstr "改变类型"
 msgid "Advanced download"
 msgstr "高级下载"
 
+msgid "Export download statistics"
+msgstr "导出文档统计"
+
 #: links/document_links.py:47
 msgid "Edit properties"
 msgstr "编辑属性"
