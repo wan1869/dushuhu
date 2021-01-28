@@ -39,7 +39,7 @@ msgstr ""
 msgid ""
 "Email address of the recipient. Can be multiple addresses separated by comma"
 " or semicolon."
-msgstr "收件人的电子邮件地址。可以是以逗号或分号分隔的多个地址。"
+msgstr "收件人的电子邮件地址。"
 
 #: forms.py:62 forms.py:122
 msgid "Email address"

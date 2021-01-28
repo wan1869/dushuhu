@@ -82,7 +82,7 @@ class DocumentMailForm(forms.Form):
     user_mailer = forms.ModelChoiceField(
         help_text=_(
             'Email address of the recipient. Can be multiple addresses '
-             'separated by comma or semicolon.'
+
         ), label=_('Email address'), queryset=UserMailer.objects.none(),
     )
 
