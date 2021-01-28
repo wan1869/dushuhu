@@ -366,7 +366,7 @@ class DocumentStatisticsDownloadView(MultipleObjectDownloadView):
         return response
 
     def get_download_filename(self):
-        return DEFAULT_DOCUMENT_STATISTICS_FILENAME + '.xlsx'
+        return DEFAULT_DOCUMENT_STATISTICS_FILENAME + '.xls'
 
 
 class DocumentPreviewView(SingleObjectDetailView):
