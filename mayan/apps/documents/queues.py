@@ -45,20 +45,18 @@ queue_documents.add_task_type(
     label=_('Empty the trash can')
 )
 
-#客户化代码 按照生效日期生效文档
-queue_documents.add_task_type(
-    dotted_path='mayan.apps.documents.tasks.task_check_effective_doc',
-    label=_('check the effective date')
-)
+# #客户化代码 按照生效日期生效文档
+# queue_documents.add_task_type(
+#     dotted_path='mayan.apps.documents.tasks.task_check_effective_doc',
+#     label=_('check the effective date')
+# )
 
 #客户化代码 每天按照生效日期检查文档生效：DEFAULT_STUB_EXPIRATION_INTERVAL
 queue_documents_periodic.add_task_type(
     dotted_path='mayan.apps.documents.tasks.task_check_effective_doc',
     label=_('check the effective date daily'),
     name='task_check_effective_doc',
-    schedule=timedelta(
-        seconds=DEFAULT_STUB_EXPIRATION_INTERVAL
-    ),
+    schedule=crontab(minute=10, hour=4),
 )
 
 #客户化代码 每天按照废止时间检查文档报废：DEFAULT_STUB_EXPIRATION_INTERVAL

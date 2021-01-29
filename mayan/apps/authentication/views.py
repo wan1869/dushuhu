@@ -23,8 +23,8 @@ from mayan.apps.user_management.permissions import permission_user_edit
 from mayan.apps.views.http import URL
 from mayan.apps.views.generics import FormView, MultipleObjectFormActionView
 from mayan.apps.views.mixins import RedirectionMixin
-#客户化代码 检查文档的有效日期
-from mayan.apps.documents.tasks import task_check_effective_doc
+# #客户化代码 检查文档的有效日期
+# from mayan.apps.documents.tasks import task_check_effective_doc
 
 from .forms import (
     EmailAuthenticationForm, UserListForm, UsernameAuthenticationForm
@@ -104,12 +104,12 @@ class MayanLoginView(StrongholdPublicMixin, LoginView):
         elif remember_me is False:
             self.request.session.set_expiry(0)
 
-        #客户化代码 检查文档的生效日期
-        task_check_effective_doc.apply_async()
-        messages.success(
-            message=_('Check the effective date of docuemnts.'),
-            request=self.request
-        )
+        # #客户化代码 检查文档的生效日期
+        # task_check_effective_doc.apply_async()
+        # messages.success(
+        #     message=_('Check the effective date of docuemnts.'),
+        #     request=self.request
+        # )
 
         return result
 
