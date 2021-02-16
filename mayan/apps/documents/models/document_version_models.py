@@ -2,6 +2,8 @@ import hashlib
 import logging
 import os
 import shutil
+#客户化代码
+import mimetypes
 
 from django.apps import apps
 from django.db import models, transaction
@@ -467,6 +469,11 @@ class DocumentVersion(models.Model):
                     self.mimetype, self.encoding = get_mimetype(
                         file_object=file_object
                     )
+                #客户化代码
+                if self.mimetype == 'application/zip':
+                    url=self.document.label
+                    mime1,test=mimetypes.guess_type(url)
+                    self.mimetype = mime1
             except Exception:
                 self.mimetype = ''
                 self.encoding = ''
