@@ -14,10 +14,9 @@
 
 {% block content_plain %}
     {% autoadmin_partial %}
-    {% motd %}
-
-    <div class="row" style="margin:50px;">
-
+<link href="{% static 'authentication/css/login.css' %}" media="screen" rel="stylesheet" type="text/css" />
+<div id="main" class="main-warp" style="overflow:hidden;height:100%;padding:100px">
+    <div class="row" >
         <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
             <div class="info d-flex align-items-center">
                 <div class="content" style="text-align:center">
@@ -58,4 +57,8 @@
             </div>
         </div>
     </div>
+</div>
+    {% motd %}
 {% endblock %}
+
+
