@@ -207,11 +207,11 @@ a i {
 }
 
 .panel-highlighted:hover {
-    box-shadow: 0px 0px 3px #18bc9c, 10px 10px 20px #000000, 0px 0px 8px #000000;
+    box-shadow: 0px 0px 3px #18bc9c, 10px 10px 20px #00bcd4, 0px 0px 8px #00bcd4;
 }
 
 .panel-item:not(.panel-highlighted):hover  {
-    box-shadow: 0px 0px 8px #000000;
+    box-shadow: 0px 0px 8px #00bcd4;
 }
 
 /* Content */
@@ -404,7 +404,7 @@ a i {
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-    color: #fff;
+    color: #00bcd4;
 }
 
 .btn-list > .btn {
@@ -433,7 +433,7 @@ a i {
 
 #menu-main {
     display: block;
-    background-color: #1a242f;
+    background-color: #fff;
     border-right: 0px solid #18bc9c;
     bottom: 0;
     left: -210px;
@@ -544,7 +544,8 @@ a i {
 }
 
 #accordion-sidebar a[aria-expanded="true"] {
-    background: #1a242f;
+    background: #00bcd4;
+    color:white;
 }
 
 #accordion-sidebar .panel {
@@ -564,22 +565,22 @@ a i {
 }
 
 #accordion-sidebar .panel-heading {
-    background-color: #1a242f;
-    color: white;
+    background-color: #fff;
+    color: #546e7a;
     padding: 0px;
 }
 
 #accordion-sidebar .panel-heading:hover {
-    background-color: #1a242f;
+    color: #00bcd4;
     transition: .1s ease;
 }
 
 #accordion-sidebar > .panel > div > .panel-body > ul > li.active {
-   background: #1890FF;
+   background: #fff;
 }
 
 #accordion-sidebar > .panel > div > .panel-body > ul > li:hover {
-    background-color: #1890FF;
+    color: #00bcd4;
     transition: .1s ease;
 }
 
@@ -590,7 +591,7 @@ a i {
 #accordion-sidebar .panel-body {
     font-size: 13px;
     border: 0px;
-    background-color: #2c3e50;
+    background-color: #fff;
     padding-top: 3px;
     padding-left: 20px;
     padding-right: 0px;
@@ -606,10 +607,16 @@ a i {
 }
 
 #accordion-sidebar .panel-body a {
-    color: white;
+    color: #546e7a;
     text-decoration: none;
     padding: 0px;
 }
+
+#accordion-sidebar > .panel > div > .panel-body > ul > li > a:hover{
+    color: #00bcd4;
+    transition: .1s ease;
+}
+
 
 .navbar-fixed-top {
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
