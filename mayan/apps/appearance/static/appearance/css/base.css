@@ -17,8 +17,12 @@ body {
 
 .navbar-brand {
     font-family: "IM Fell English SC", serif;
-    color:#ffffff
+    color:#51ADF6;
 }
+
+/*#navbar {*/
+    /*background-color:#51ADF6;*/
+  /*}*/
 
 #fancybox-left-ico {
  left: 20px;
@@ -142,6 +146,7 @@ a i {
 
 /* Collapse navigation on medium or smaller */
 @media (max-width: 991px) {
+
   .navbar-header {
       float: none;
   }
@@ -171,7 +176,6 @@ a i {
   }
   .navbar-nav>li>a {
       padding-top: 10px;
-      padding-bottom: 10px;
   }
   .collapse.in{
       display:block !important;
@@ -445,6 +449,7 @@ a i {
     transition: left 0.3s;
     width: 210px;
     z-index: 1000;
+    box-shadow:  1px 0px 20px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -526,7 +531,8 @@ a i {
 }
 
 .navbar-brand {
-    background:#1a242f
+    background:#fff;
+    color:#00bcd4;
 }
 
 .navbar-brand {
@@ -544,8 +550,8 @@ a i {
 }
 
 #accordion-sidebar a[aria-expanded="true"] {
-    background: #00bcd4;
-    color:white;
+    color: #00bcd4;
+    font-weight: bold;
 }
 
 #accordion-sidebar .panel {
@@ -575,14 +581,8 @@ a i {
     transition: .1s ease;
 }
 
-#accordion-sidebar > .panel > div > .panel-body > ul > li.active {
-   background: #fff;
-}
 
-#accordion-sidebar > .panel > div > .panel-body > ul > li:hover {
-    color: #00bcd4;
-    transition: .1s ease;
-}
+
 
 #accordion-sidebar .panel-title {
     font-size: 15px;
@@ -615,6 +615,10 @@ a i {
 #accordion-sidebar > .panel > div > .panel-body > ul > li > a:hover{
     color: #00bcd4;
     transition: .1s ease;
+}
+
+#accordion-sidebar > .panel > div > .panel-body > ul > li.active{
+    font-weight: 700;
 }
 
 
@@ -651,3 +655,4 @@ a i {
 .dropdown-menu > li > a {
     color: #585e5e;
 }
+
