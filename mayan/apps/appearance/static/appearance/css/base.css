@@ -15,14 +15,14 @@ body {
     padding-top: 60px;
 }
 
-.navbar-brand {
-    font-family: "IM Fell English SC", serif;
-    color:#51ADF6;
-}
+/*.navbar-brand {*/
+    /*color:white;*/
+    /*background-color: #98BEFC;*/
+/*}*/
 
-/*#navbar {*/
-    /*background-color:#51ADF6;*/
-  /*}*/
+#navbar {
+    background-color:#51ADF6;
+  }
 
 #fancybox-left-ico {
  left: 20px;
@@ -211,11 +211,11 @@ a i {
 }
 
 .panel-highlighted:hover {
-    box-shadow: 0px 0px 3px #18bc9c, 10px 10px 20px #00bcd4, 0px 0px 8px #00bcd4;
+    box-shadow: 0px 0px 3px #18bc9c, 10px 10px 20px #F5A623, 0px 0px 8px #F5A623;
 }
 
 .panel-item:not(.panel-highlighted):hover  {
-    box-shadow: 0px 0px 8px #00bcd4;
+    box-shadow: 0px 0px 8px #F5A623;
 }
 
 /* Content */
@@ -408,7 +408,7 @@ a i {
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-    color: #00bcd4;
+    color: #F5A623;
 }
 
 .btn-list > .btn {
@@ -437,7 +437,7 @@ a i {
 
 #menu-main {
     display: block;
-    background-color: #fff;
+    background-color: #98BEFC;
     border-right: 0px solid #18bc9c;
     bottom: 0;
     left: -210px;
@@ -518,6 +518,8 @@ a i {
     .navbar-brand {
         text-align: center;
         width: 210px;
+        background:#fff;
+        color:white;
     }
 }
 
@@ -530,10 +532,6 @@ a i {
   margin-top: 0;
 }
 
-.navbar-brand {
-    background:#fff;
-    color:#00bcd4;
-}
 
 .navbar-brand {
     outline: none;
@@ -550,7 +548,7 @@ a i {
 }
 
 #accordion-sidebar a[aria-expanded="true"] {
-    color: #00bcd4;
+    color: #F5A623;
     font-weight: bold;
 }
 
@@ -577,7 +575,7 @@ a i {
 }
 
 #accordion-sidebar .panel-heading:hover {
-    color: #00bcd4;
+    color: #F5A623;
     transition: .1s ease;
 }
 
@@ -591,7 +589,8 @@ a i {
 #accordion-sidebar .panel-body {
     font-size: 13px;
     border: 0px;
-    background-color: #fff;
+    background-color: #98BEFC;
+    color:white;
     padding-top: 3px;
     padding-left: 20px;
     padding-right: 0px;
@@ -607,13 +606,13 @@ a i {
 }
 
 #accordion-sidebar .panel-body a {
-    color: #546e7a;
+    color: white;
     text-decoration: none;
     padding: 0px;
 }
 
 #accordion-sidebar > .panel > div > .panel-body > ul > li > a:hover{
-    color: #00bcd4;
+    color: #F5A623;
     transition: .1s ease;
 }
 
@@ -654,5 +653,10 @@ a i {
 
 .dropdown-menu > li > a {
     color: #585e5e;
+}
+
+.panel-title>a{
+    background-color:#98BEFC;
+    color:white;
 }
 
