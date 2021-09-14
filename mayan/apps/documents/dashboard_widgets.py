@@ -127,3 +127,22 @@ class DashboardWidgetDocumentsPagesNewThisMonth(DashboardWidgetNumeric):
     def render(self, request):
         self.count = new_document_pages_this_month(user=request.user)
         return super(DashboardWidgetDocumentsPagesNewThisMonth, self).render(request)
+
+# 客户化代码 自定义开发
+class DashboardWidgetDocumentDirector(DashboardWidgetNumeric):
+    icon_class = icon_dashboard_total_document
+    label = _('Cabnet List')
+    link = reverse_lazy(viewname='cabinets:cabinet_list4doc')
+
+    def render(self, request):
+        AccessControlList = apps.get_model(
+            app_label='acls', model_name='AccessControlList'
+        )
+        Document = apps.get_model(
+            app_label='documents', model_name='Document'
+        )
+        self.count = AccessControlList.objects.restrict_queryset(
+            permission=permission_document_view, user=request.user,
+            queryset=Document.objects.filter(in_trash=False)
+        ).count()
+        return super(DashboardWidgetDocumentDirector, self).render(request)

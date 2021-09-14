@@ -35,7 +35,8 @@ from .dashboard_widgets import (
     DashboardWidgetDocumentPagesTotal, DashboardWidgetDocumentsInTrash,
     DashboardWidgetDocumentsNewThisMonth,
     DashboardWidgetDocumentsPagesNewThisMonth, DashboardWidgetDocumentsTotal,
-    DashboardWidgetDocumentsTypesTotal,
+    DashboardWidgetDocumentsTypesTotal,DashboardWidgetDocumentDirector,
+# custom dev 自定义开发
 )
 from .events import (
     event_document_create, event_document_download,
@@ -446,6 +447,10 @@ class DocumentsApp(MayanAppConfig):
         )
         dashboard_main.add_widget(
             widget=DashboardWidgetDocumentsPagesNewThisMonth, order=5
+        )
+        # custom dev 自定义开发
+        dashboard_main.add_widget(
+            widget=DashboardWidgetDocumentDirector, order=6
         )
 
         menu_documents.bind_links(
