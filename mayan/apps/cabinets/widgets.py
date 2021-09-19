@@ -6,8 +6,14 @@ def jstree_data(node, selected_node):
 
     result.append('{')
     result.append(format_html('"text": "{}",', node.label))
+    # result.append(
+    #     '"state": {{ "opened": true, "selected": {} }},'.format(
+    #         'true' if node == selected_node else 'false'
+    #     )
+    # )
+# 客户化代码 opened:false
     result.append(
-        '"state": {{ "opened": true, "selected": {} }},'.format(
+        '"state": {{ "opened": false, "selected": {} }},'.format(
             'true' if node == selected_node else 'false'
         )
     )

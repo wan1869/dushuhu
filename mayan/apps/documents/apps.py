@@ -101,7 +101,7 @@ from .links.trashed_document_links import (
     link_trash_can_empty
 )
 
-from .menus import menu_documents
+from .menus import menu_documents,menu_docadmin
 from .permissions import (
     permission_document_create, permission_document_delete,
     permission_document_download, permission_document_edit,
@@ -455,15 +455,31 @@ class DocumentsApp(MayanAppConfig):
 
         menu_documents.bind_links(
             links=(
-                link_document_list_recent_access,
-                link_document_list_recent_added, link_document_list_favorites,
-                link_document_list, link_document_list_deleted,
-                link_duplicated_document_list,
+                # link_document_list_recent_access,
+                # link_document_list_recent_added,
+                # link_document_list_favorites,
+                # link_document_list,
+                # link_document_list_deleted,
+                # link_duplicated_document_list,
                 link_cabinet_list,
             )
         )
 
-        menu_main.bind_links(links=(menu_documents,), position=0)
+        #客户化代码 增加菜单menu_docadmin
+        menu_docadmin.bind_links(
+            links=(
+                link_document_list_recent_access,
+                link_document_list_recent_added,
+                link_document_list_favorites,
+                link_document_list,
+                link_document_list_deleted,
+                link_duplicated_document_list,
+                # link_cabinet_list,
+            )
+        )
+
+        menu_main.bind_links(links=(menu_documents,), position=1)
+        menu_main.bind_links(links=(menu_docadmin,), position=0)
 
         menu_setup.bind_links(links=(link_document_type_setup,))
         menu_tools.bind_links(

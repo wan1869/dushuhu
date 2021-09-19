@@ -289,9 +289,10 @@ msgstr "获取文件扩展名并将其移动到文件名的末尾，允许依赖
 msgid "Clear transformations"
 msgstr "清除转换"
 
+#menus.py:13
 #: links/document_links.py:28
-msgid "Clone transformations"
-msgstr "克隆转换"
+msgid "documents quickaccess"
+msgstr "快捷菜单"
 
 #: links/document_links.py:34 links/document_links.py:69
 msgid "Change type"
